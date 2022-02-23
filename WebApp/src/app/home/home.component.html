@@ -1,0 +1,24 @@
+<div class="form">
+    <h1>Thông tin nhân viên:</h1>
+    <table class="desEmployee">
+        <tr>
+            <td MyBolder>Tên nhân viên</td>
+            <td><input [(ngModel)]="name" /></td>
+        </tr>
+        <tr>
+            <td>Tuổi</td>
+            <td><input [(ngModel)]="age" /></td>
+        </tr>
+        <tr>
+            <td>Vị trí làm việc</td>
+            <td><input [(ngModel)]="position" /></td>
+        </tr>
+        <tr>
+            <td>Bộ phận/Phòng ban</td>
+            <td><input [(ngModel)]="depart" /></td>
+        </tr>
+    </table>
+    <button (click)="onSubmit()">Submit</button>
+    <button (click)="tangTuoi()">Tăng tuổi</button>
+    <div [innerHTML]="html"></div>
+</div>

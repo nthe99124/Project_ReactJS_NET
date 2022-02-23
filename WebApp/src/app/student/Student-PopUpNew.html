@@ -1,0 +1,48 @@
+<button class="close" (click)="onClose()">X</button>
+<h1 mat-dialog-title>New</h1>
+<div mat-dialog-content>
+    <form class="example-form" [formGroup]="StudentInfor" (ngSubmit)="onClickCreate()">
+        <mat-form-field appearance="fill">
+            <mat-label>Code</mat-label>
+            <input matInput placeholder="Code" class="Code" formControlName="code">
+        </mat-form-field>
+        <section>
+            <mat-label>Gender: </mat-label>
+            <mat-radio-group formControlName="gender">
+                <mat-radio-button class="Gender" value="Male" [checked]='true'>Male</mat-radio-button>
+                <mat-radio-button class="Gender" value="Female">Female</mat-radio-button>
+            </mat-radio-group>
+        </section>
+        <mat-form-field>
+            <mat-label>First Name</mat-label>
+            <input matInput placeholder="First Name" class="First_Name" formControlName="firstName">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Last Name</mat-label>
+            <input matInput placeholder="Last Name" class="Last_Name" formControlName="lastName">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>Date of Birthday</mat-label>
+            <input matInput [matDatepicker]="picker" class="DoB" formControlName="DoB">
+            <mat-datepicker-toggle matSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" class="Email" formControlName="Email">
+        </mat-form-field>
+        <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput placeholder="Phone" class="Phone" formControlName="Phone">
+            <!-- <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+                Please enter a valid email address
+            </mat-error> -->
+        </mat-form-field>
+        <button type="submit" mat-raised-button color="primary" [disabled]="!StudentInfor.valid" class="action">Create and Close</button>
+        <button mat-raised-button color="accent" class="action" (click)="saveAndContinue()">Save and Continue Create</button>
+    </form>
+</div>
+<div mat-dialog-actions>
+</div>

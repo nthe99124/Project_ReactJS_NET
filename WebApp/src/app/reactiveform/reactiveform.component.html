@@ -1,0 +1,14 @@
+<div class="container">
+    <h1>ReactiveForm</h1>
+    <!-- <br/><button (click)="updateName()">Đổi tên</button> -->
+    <form [formGroup]="profileForm" (ngSubmit)="updateName()">
+        <label for="">
+                  Name: <input type="text" formControlName="fname" required>
+            </label>
+        <span *ngIf="!profileForm.controls['fname'].valid"> * Chưa nhập name</span><br/>
+        <label for="">
+                  Age: <input type="text" formControlName="age">
+            </label>
+        <br/><button type="submit" [disabled]="!profileForm.valid">Xác nhận</button>
+    </form>
+</div>

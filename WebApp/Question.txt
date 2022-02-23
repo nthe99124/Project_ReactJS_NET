@@ -1,0 +1,3 @@
+Vấn đề Angular:
+- Sau khi close Dialog, làm sao để Refresh data: có nên push dữ liệu vào biến lưu list hay call api lại
+- (CSS) không gọi được thuộc tính :not, :nth-child,...
