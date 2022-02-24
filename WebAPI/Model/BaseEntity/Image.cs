@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
@@ -9,5 +10,6 @@ namespace Model.BaseEntity
         [Key]
         public long Id { get; set; }
         public string UrlImage { get; set; }
+        public ICollection<ProductImage> ProductImages { get; set; }
     }
 }

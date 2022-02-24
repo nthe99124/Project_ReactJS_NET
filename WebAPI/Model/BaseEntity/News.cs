@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,9 +13,7 @@ namespace Model.BaseEntity
         [Required]
         public string Title { get; set; }
         public string Content { get; set; }
-        public long NewsImageID { get; set; }
-        [ForeignKey("NewsImageID")]
-        public NewsImage NewsImage { get; set; }
+        public ICollection<NewsImage> NewsImage { get; set; }
 
     }
 }

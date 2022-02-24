@@ -9,9 +9,9 @@ namespace Model.BaseEntity
     {
         [Key]
         public long Id { get; set; }
-        public long ProductColorID { get; set; }
-        [ForeignKey("ProductColorID")]
-        public ProductColor ProductColor { get; set; }
+        public long ProductID { get; set; }
+        [ForeignKey("ProductID")]
+        public Product Product { get; set; }
         public long CustomerID { get; set; }
         [ForeignKey("CustomerID")]
         public User User { get; set; }

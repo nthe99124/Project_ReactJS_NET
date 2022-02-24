@@ -5,9 +5,39 @@ namespace Model.Common
 {
     public class MyDbContext : DbContext
     {
-        public MyDbContext(DbContextOptions options) : base(options) { }
-        public DbSet<User> Users { get; set; }
+        public MyDbContext(DbContextOptions options) : base(options)
+        {
+
+        }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            builder.Entity<ProductImage>().HasKey(table => new
+            {
+                table.ImageID,
+                table.ProductID
+            });
+            builder.Entity<ProductColor>().HasKey(table => new
+            {
+                table.ColorID,
+                table.ProductID
+            });
+        }
+        public DbSet<Bill> Bills { get; set; }
+        public DbSet<BillStatus> BillStatus { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Cart> Carts { get; set; }
+        public DbSet<Color> Colors { get; set; }
+        public DbSet<FavoriteList> FavoriteList { get; set; }
+        public DbSet<Image> Images { get; set; }
+        public DbSet<News> News { get; set; }
+        public DbSet<NewsImage> NewsImage { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductImage> ProductImage { get; set; }
+        public DbSet<ProductColor> ProductColor { get; set; }
         public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRole { get; set; }
+
 
     }
 }

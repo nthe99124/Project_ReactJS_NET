@@ -14,7 +14,9 @@ namespace Model.BaseEntity
         public User User { get; set; }
         public DateTime DateOrder { get; set; }
         public string Address { get; set; }
-        public string Status { get; set; }
+        public int StatusID { get; set; }
+        [ForeignKey("StatusID")]
+        public BillStatus BillStatus { get; set; }
         public string Phone { get; set; }
     }
 }

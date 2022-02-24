@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
@@ -10,5 +11,7 @@ namespace Model.BaseEntity
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
+
     }
 }
