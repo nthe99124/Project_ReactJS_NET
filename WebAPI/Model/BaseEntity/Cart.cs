@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Model.Common;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
 {
     [Table("Cart")]
-    public class Cart
+    public class Cart : Entity
     {
         [Key]
         public long Id { get; set; }

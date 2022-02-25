@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Model.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
 {
     [Table("Product")]
-    public class Product
+    public class Product : Entity
     {
         [Key]
         public long Id { get; set; }
@@ -21,7 +22,7 @@ namespace Model.BaseEntity
         public decimal PromotionPrice { get; set; }
         //option include: CPU,GPU,RAM,ROM,Monitor,Operating,Battery
         public string Option { get; set; }
-        // type of product (config in base type)
+        // type of product (config in dataType)
         public int Type { get; set; }
         [Column(TypeName = "decimal(18,0)")]
         public decimal Warranty { get; set; }

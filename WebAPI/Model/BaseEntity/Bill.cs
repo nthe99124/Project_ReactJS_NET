@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Model.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
 {
     [Table("Bill")]
-    public class Bill
+    [Index(nameof(DateOrder))]
+    public class Bill : Entity
     {
         public long Id { get; set; }
         public long CustomerID { get; set; }

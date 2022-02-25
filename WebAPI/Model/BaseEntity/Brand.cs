@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Model.Common;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -6,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Model.BaseEntity
 {
     [Table("Brand")]
-    public class Brand
+    public class Brand : Entity
     {
         [Key]
         public int Id { get; set; }

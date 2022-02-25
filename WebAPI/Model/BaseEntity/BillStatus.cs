@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Model.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
 {
     [Table("BillStatus")]
-    public class BillStatus
+    public class BillStatus : Entity
     {
         [Key]
         public int Id { get; set; }

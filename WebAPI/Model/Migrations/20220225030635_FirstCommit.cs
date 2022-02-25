@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Model.Migrations
 {
-    public partial class CompletedDB : Migration
+    public partial class FirstCommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -13,7 +13,11 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StatusDescription = table.Column<int>(type: "int", nullable: false)
+                    StatusDescription = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,7 +32,11 @@ namespace Model.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -41,7 +49,11 @@ namespace Model.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ColorName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ColorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +66,11 @@ namespace Model.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    UrlImage = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,7 +84,11 @@ namespace Model.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,7 +102,11 @@ namespace Model.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RoleName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RoleDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    RoleDescription = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -97,7 +121,11 @@ namespace Model.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DoB = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    DoB = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -119,7 +147,11 @@ namespace Model.Migrations
                     Type = table.Column<int>(type: "int", nullable: false),
                     Warranty = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
                     Weight = table.Column<decimal>(type: "decimal(18,0)", nullable: false),
-                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Size = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -139,7 +171,11 @@ namespace Model.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NewsID = table.Column<long>(type: "bigint", nullable: false),
-                    ImageID = table.Column<long>(type: "bigint", nullable: false)
+                    ImageID = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -168,7 +204,11 @@ namespace Model.Migrations
                     DateOrder = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StatusID = table.Column<int>(type: "int", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -194,7 +234,11 @@ namespace Model.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserID = table.Column<long>(type: "bigint", nullable: false),
-                    RoleID = table.Column<int>(type: "int", nullable: false)
+                    RoleID = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -221,7 +265,11 @@ namespace Model.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<long>(type: "bigint", nullable: false),
                     CustomerId = table.Column<long>(type: "bigint", nullable: false),
-                    QuantityPurschased = table.Column<int>(type: "int", nullable: false)
+                    QuantityPurschased = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -247,7 +295,11 @@ namespace Model.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductID = table.Column<long>(type: "bigint", nullable: false),
-                    CustomerID = table.Column<long>(type: "bigint", nullable: false)
+                    CustomerID = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -271,7 +323,11 @@ namespace Model.Migrations
                 columns: table => new
                 {
                     ProductID = table.Column<long>(type: "bigint", nullable: false),
-                    ColorID = table.Column<int>(type: "int", nullable: false)
+                    ColorID = table.Column<int>(type: "int", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -295,7 +351,11 @@ namespace Model.Migrations
                 columns: table => new
                 {
                     ProductID = table.Column<long>(type: "bigint", nullable: false),
-                    ImageID = table.Column<long>(type: "bigint", nullable: false)
+                    ImageID = table.Column<long>(type: "bigint", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    CreatedBy = table.Column<long>(type: "bigint", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "DateTime", nullable: false),
+                    UpdatedBy = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -318,6 +378,11 @@ namespace Model.Migrations
                 name: "IX_Bill_CustomerID",
                 table: "Bill",
                 column: "CustomerID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bill_DateOrder",
+                table: "Bill",
+                column: "DateOrder");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Bill_StatusID",

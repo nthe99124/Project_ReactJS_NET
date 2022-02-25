@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using Model.Common;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
 {
     [Table("NewsImage")]
-    public class NewsImage
+    public class NewsImage : Entity
     {
         [Key]
         public long Id { get; set; }

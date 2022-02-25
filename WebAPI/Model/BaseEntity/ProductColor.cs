@@ -1,10 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Model.Common;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
 {
     [Table("ProductColor")]
-    public class ProductColor
+    public class ProductColor : Entity
     {
         [Key, ForeignKey("ProductID")]
         public long ProductID { get; set; }

@@ -29,6 +29,14 @@ namespace Model.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<long>("CustomerID")
                         .HasColumnType("bigint");
 
@@ -41,9 +49,19 @@ namespace Model.Migrations
                     b.Property<int>("StatusID")
                         .HasColumnType("int");
 
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CustomerID");
+
+                    b.HasIndex("DateOrder");
 
                     b.HasIndex("StatusID");
 
@@ -57,8 +75,24 @@ namespace Model.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<int>("StatusDescription")
                         .HasColumnType("int");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -72,6 +106,14 @@ namespace Model.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -81,6 +123,14 @@ namespace Model.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -94,6 +144,14 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<long>("CustomerId")
                         .HasColumnType("bigint");
 
@@ -102,6 +160,14 @@ namespace Model.Migrations
 
                     b.Property<int>("QuantityPurschased")
                         .HasColumnType("int");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -123,6 +189,22 @@ namespace Model.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
+
                     b.HasKey("Id");
 
                     b.ToTable("Color");
@@ -135,11 +217,27 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<long>("CustomerID")
                         .HasColumnType("bigint");
 
                     b.Property<long>("ProductID")
                         .HasColumnType("bigint");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -156,6 +254,22 @@ namespace Model.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.Property<string>("UrlImage")
                         .HasColumnType("nvarchar(max)");
@@ -175,9 +289,25 @@ namespace Model.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -191,11 +321,27 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<long>("ImageID")
                         .HasColumnType("bigint");
 
                     b.Property<long>("NewsID")
                         .HasColumnType("bigint");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -215,6 +361,14 @@ namespace Model.Migrations
 
                     b.Property<int>("BrandID")
                         .HasColumnType("int");
+
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -238,6 +392,14 @@ namespace Model.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
+
                     b.Property<decimal>("Warranty")
                         .HasColumnType("decimal(18,0)");
 
@@ -259,6 +421,22 @@ namespace Model.Migrations
                     b.Property<long>("ProductID")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
+
                     b.HasKey("ColorID", "ProductID");
 
                     b.HasIndex("ProductID");
@@ -274,6 +452,22 @@ namespace Model.Migrations
                     b.Property<long>("ProductID")
                         .HasColumnType("bigint");
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
+
                     b.HasKey("ImageID", "ProductID");
 
                     b.HasIndex("ProductID");
@@ -288,11 +482,27 @@ namespace Model.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<string>("RoleDescription")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -306,6 +516,14 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<DateTime>("DoB")
                         .HasColumnType("datetime2");
 
@@ -314,6 +532,14 @@ namespace Model.Migrations
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.HasKey("Id");
 
@@ -327,8 +553,24 @@ namespace Model.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<long>("CreatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("CreatedBy");
+
+                    b.Property<DateTime>("CreatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("CreatedOn");
+
                     b.Property<int>("RoleID")
                         .HasColumnType("int");
+
+                    b.Property<long>("UpdatedBy")
+                        .HasColumnType("bigint")
+                        .HasColumnName("UpdatedBy");
+
+                    b.Property<DateTime>("UpdatedOn")
+                        .HasColumnType("DateTime")
+                        .HasColumnName("UpdatedOn");
 
                     b.Property<long>("UserID")
                         .HasColumnType("bigint");
