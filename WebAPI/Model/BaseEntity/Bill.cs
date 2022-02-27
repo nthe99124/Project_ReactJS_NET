@@ -2,6 +2,7 @@
 using Model.Common;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Model.BaseEntity
@@ -10,6 +11,8 @@ namespace Model.BaseEntity
     [Index(nameof(DateOrder))]
     public class Bill : Entity
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public long CustomerID { get; set; }
         // may be not need [ForeignKey()]

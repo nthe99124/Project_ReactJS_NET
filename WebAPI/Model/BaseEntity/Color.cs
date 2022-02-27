@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class Color : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
         public string ColorName { get; set; }

@@ -8,6 +8,7 @@ namespace Model.BaseEntity
     public class UserRole : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public long UserID { get; set; }
         [ForeignKey("UserID")]

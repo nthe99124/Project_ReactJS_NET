@@ -5,6 +5,9 @@ namespace Model.Common
 {
     public class MyDbContext : DbContext
     {
+        // With lower version we can use "enable-migrations –EnableAutomaticMigration:$true" to create file (Configuration)
+        // AutomaticMigrationsEnabled = true; -- only add table or bla bla but that be lost data
+        // AutomaticMigrationDataLossAllowed = true; -- 
         public MyDbContext(DbContextOptions options) : base(options)
         {
 

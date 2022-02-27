@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class FavoriteList : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public long ProductID { get; set; }
         [ForeignKey("ProductID")]

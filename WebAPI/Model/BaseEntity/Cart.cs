@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class Cart : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public long ProductId { get; set; }
         [ForeignKey("ProductId")]

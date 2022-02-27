@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class Product : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }

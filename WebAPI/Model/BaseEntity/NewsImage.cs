@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class NewsImage : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public long NewsID { get; set; }
         [ForeignKey("NewsID")]

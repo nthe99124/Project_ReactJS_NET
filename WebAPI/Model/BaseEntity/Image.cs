@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class Image : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         public string UrlImage { get; set; }
         public ICollection<ProductImage> ProductImages { get; set; }

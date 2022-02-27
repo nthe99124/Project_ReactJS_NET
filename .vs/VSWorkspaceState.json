@@ -1,8 +1,10 @@
 {
   "ExpandedNodes": [
     "",
-    "\\WebAPI"
+    "\\WebAPI",
+    "\\WebAPI\\Model",
+    "\\WebAPI\\Model\\Migrations"
   ],
-  "SelectedNode": "\\WebAPI\\WebAPI.sln",
+  "SelectedNode": "\\WebAPI\\Model\\Migrations\\20220225030635_FirstCommit.cs",
   "PreviewInSolutionExplorer": false
 }

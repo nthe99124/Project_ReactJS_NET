@@ -18,8 +18,4 @@
     <ProjectReference Include="..\Model\Model.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Reponsitories\" />
-  </ItemGroup>
-
 </Project>

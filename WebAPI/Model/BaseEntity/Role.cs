@@ -9,6 +9,7 @@ namespace Model.BaseEntity
     public class Role : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string RoleName { get; set; }
         public string RoleDescription { get; set; }

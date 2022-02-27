@@ -10,6 +10,7 @@ namespace Model.BaseEntity
     public class News : Entity
     {
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [Required]
         public string Title { get; set; }
