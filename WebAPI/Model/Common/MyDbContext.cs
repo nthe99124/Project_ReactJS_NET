@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Model.BaseEntity;
 
+
 namespace Model.Common
 {
     public class MyDbContext : DbContext

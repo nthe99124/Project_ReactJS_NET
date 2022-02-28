@@ -6,12 +6,14 @@ namespace API.Common.Interface
 {
     public interface IGenericReponsitory<T>
     {
-        Task<IEnumerable<T>> GetAll();
-        Task<IEnumerable<T>> GetByParameter();
+        IEnumerable<T> GetAll();
         Task<T> Create(T entity);
-        Task<int> Update(T entity);
-        T Delete(T entity);
-        IEnumerable<N> SqlQuery<N>(string query, SqlParameter[] array = null);
+        void Update(T entity);
+        void Delete(T entity);
+        void Delete(int id);
+        IEnumerable<T> SqlQuery<T>(string query, SqlParameter[] array = null) where T : class;
         IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new();
+        Task<int> Save();
+
     }
 }

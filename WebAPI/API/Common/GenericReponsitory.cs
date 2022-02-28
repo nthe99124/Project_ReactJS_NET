@@ -2,9 +2,11 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Model.Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace API.Common
 {
@@ -43,13 +45,13 @@ namespace API.Common
             var entity = _dbset.Find(id);
             _dbset.Remove(entity);
         }
-        public async IEnumerable<N> SqlQuery<N>(string query, SqlParameter[] array = null)
+        public IEnumerable<T> SqlQuery<T>(string query, SqlParameter[] array = null) where T : class
         {
-
+            return _entities.SqlQuery<T>(query, array);
         }
-        public async IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new()
+        public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new()
         {
-
+            return _entities.ExecuteStoredProcedureObject<T>(nameProcedure, array);
         }
         public async Task<int> Save()
         {
@@ -64,5 +66,6 @@ namespace API.Common
             }
 
         }
+
     }
 }
