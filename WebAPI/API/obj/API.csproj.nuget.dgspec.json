@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\API\\API.csproj": {}
+    "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\API\\API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\API\\API.csproj": {
+    "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\API\\API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\API\\API.csproj",
+        "projectUniqueName": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\API\\API.csproj",
         "projectName": "API",
-        "projectPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\API\\API.csproj",
+        "projectPath": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\API\\API.csproj",
         "packagesPath": "C:\\Users\\nthe9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\API\\obj\\",
+        "outputPath": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nthe9\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net5.0": {
             "targetAlias": "net5.0",
             "projectReferences": {
-              "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj": {
-                "projectPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj"
+              "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj": {
+                "projectPath": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj"
               }
             }
           }
@@ -85,14 +85,14 @@
         }
       }
     },
-    "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj": {
+    "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj",
+        "projectUniqueName": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj",
         "projectName": "Model",
-        "projectPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj",
+        "projectPath": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj",
         "packagesPath": "C:\\Users\\nthe9\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\obj\\",
+        "outputPath": "C:\\Users\\nthe9\\Desktop\\ProjectNET_Angular\\Project_Angular_NET\\WebAPI\\Model\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\nthe9\\AppData\\Roaming\\NuGet\\NuGet.Config",

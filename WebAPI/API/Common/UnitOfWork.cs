@@ -6,16 +6,21 @@ using System.Threading.Tasks;
 
 namespace API.Common
 {
-    public class UnitOfWork: IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         readonly MyDbContext _context;
         public UnitOfWork(MyDbContext context)
         {
             _context = context;
         }
+
         public async Task<int> CommitAsync()
         {
-            return  await _context.SaveChangesAsync();
+            return await _context.SaveChangesAsync();
+        }
+        public DbSet<T> Set<T>() where T : class
+        {
+            return _context.Set<T>();
         }
     }
 }
