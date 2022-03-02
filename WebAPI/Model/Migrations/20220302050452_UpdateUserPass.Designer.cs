@@ -10,8 +10,8 @@ using Model.Common;
 namespace Model.Migrations
 {
     [DbContext(typeof(MyDbContext))]
-    [Migration("20220225030635_FirstCommit")]
-    partial class FirstCommit
+    [Migration("20220302050452_UpdateUserPass")]
+    partial class UpdateUserPass
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -535,6 +535,10 @@ namespace Model.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PassWord")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<long>("UpdatedBy")
                         .HasColumnType("bigint")
                         .HasColumnName("UpdatedBy");
@@ -542,6 +546,10 @@ namespace Model.Migrations
                     b.Property<DateTime>("UpdatedOn")
                         .HasColumnType("DateTime")
                         .HasColumnName("UpdatedOn");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

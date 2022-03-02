@@ -13,6 +13,10 @@ namespace Model.BaseEntity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
+        [Required]
+        public string UserName { get; set; }
+        [Required]
+        public string PassWord { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DoB { get; set; }
