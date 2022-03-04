@@ -1,9 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using Model.BaseEntity;
 
 
 namespace Model.Common
 {
+
     public class MyDbContext : DbContext
     {
         // With lower version we can use "enable-migrations –EnableAutomaticMigration:$true" to create file (Configuration)
@@ -11,7 +14,6 @@ namespace Model.Common
         // AutomaticMigrationDataLossAllowed = true; -- 
         public MyDbContext(DbContextOptions options) : base(options)
         {
-
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -26,6 +28,9 @@ namespace Model.Common
                 table.ProductID
             });
         }
+
+
+
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillStatus> BillStatus { get; set; }
         public DbSet<Brand> Brands { get; set; }

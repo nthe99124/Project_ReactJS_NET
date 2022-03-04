@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using API.Common;
+using API.Common.Interface;
+using API.Reponsitories;
+using API.Reponsitories.Interface;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -39,36 +43,71 @@ namespace API
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllers();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+
+
+
+            #region config Swagger - Use Bearer
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "Bearer",
+                    In = ParameterLocation.Header,
+                    Description = "Bearer Auth"
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer",
+                            },
+                        },
+                        new string[]{}
+                    }
+                });
             });
+            #endregion
 
-            // config token
+
+            #region config token
             var secretKey = Configuration["AppSettings:SecretKey"];
             var secretKeyBytes = Encoding.UTF8.GetBytes(secretKey);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            services.AddAuthentication(opt =>
+            {
+                opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
                 .AddJwtBearer(opt =>
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
-                        //tự cấp token
+                        //grant token
                         ValidateIssuer = false,
                         ValidateAudience = false,
 
-                        //ký vào token
+                        //sign token
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = new SymmetricSecurityKey(secretKeyBytes),
 
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+            #endregion
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -77,8 +116,9 @@ namespace API
             }
 
             app.UseHttpsRedirection();
-
             app.UseRouting();
+
+            //need for authen and author
             app.UseAuthentication();
 
             app.UseAuthorization();

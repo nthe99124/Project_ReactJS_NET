@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Model.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,6 +31,67 @@ namespace API.Common
         public IEnumerable<T> SqlQuery<T>(string query, SqlParameter[] array = null) where T : class
         {
             return _context.Set<T>().FromSqlRaw(query, array);
+        }
+        public DataTable SqlQuery(string query, SqlParameter[] array = null)
+        {
+            var dt = new DataTable();
+            try
+            {
+                //array là mảng tham số truyền vào theo kiểu dữ liệu SqlParameter
+                //_context.Database.CommandTimeout = 1800;
+
+
+                //var conn = _context.Database.Connection;
+                //var connectionState = conn.State;
+                //try
+                //{
+                //    if (connectionState != ConnectionState.Open)
+                //        conn.Open();
+                //    using (var cmd = conn.CreateCommand())
+                //    {
+                //        cmd.CommandText = query;
+                //        cmd.CommandType = CommandType.Text;
+                //        if (array != null && array.Any())
+                //        {
+                //            cmd.Parameters.AddRange(array);
+                //        }
+                //        using (var reader = cmd.ExecuteReader())
+                //        {
+                //            dt.Load(reader);
+                //        }
+                //    }
+                //}
+                //catch (Exception ex)
+                //{
+                //    // error handling
+                //    throw;
+                //}
+                //finally
+                //{
+                //    if (connectionState != ConnectionState.Closed)
+                //        conn.Close();
+                //}
+                string connString = _context.Database.GetDbConnection().ToString();
+
+                SqlConnection conn = new SqlConnection(connString);
+                SqlCommand cmd = new SqlCommand(query, conn);
+                conn.Open();
+
+                // create data adapter
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dataTable = new DataTable();
+                // this will query your database and return the result to your datatable
+                da.Fill(dataTable);
+                conn.Close();
+                da.Dispose();
+                return dataTable;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
         public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new()
         {

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Model.Common;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -12,9 +13,9 @@ namespace API.Common
 {
     public class GenericReponsitory<T> : IGenericReponsitory<T> where T : class
     {
-        private readonly DbSet<T> _dbset;
-        private readonly MyDbContext DbContext;
-        private readonly IUnitOfWork _entities;
+        protected readonly DbSet<T> _dbset;
+        protected readonly MyDbContext DbContext;
+        protected readonly IUnitOfWork _entities;
         protected GenericReponsitory(IUnitOfWork entities)
         {
             _entities = entities;
@@ -48,6 +49,10 @@ namespace API.Common
         public IEnumerable<T> SqlQuery<T>(string query, SqlParameter[] array = null) where T : class
         {
             return _entities.SqlQuery<T>(query, array);
+        }
+        public DataTable SqlQuery(string query, SqlParameter[] array = null)
+        {
+            return _entities.SqlQuery(query, array);
         }
         public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new()
         {

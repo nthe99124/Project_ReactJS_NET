@@ -1,4 +1,6 @@
 ﻿using API.Common;
+using API.Common.Interface;
+using API.Reponsitories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,21 +15,24 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly MyDbContext _context;
-        public ProductController(MyDbContext context)
+        private readonly IProductRepository _ProductRepository;
+
+        public ProductController(IProductRepository ProductRepository) 
         {
-            _context = context;
+            _ProductRepository = ProductRepository;
         }
         [HttpGet("GetPro")]
         [Authorize]
         public IActionResult GetAllProduct()
         {
-            var getPro = _context.Products.Select(p => new { id = p.Id, name = p.Name });
+            //var getProSQL = "SELECT * FROM Product";
+            //var getPro = this.SqlQuery(getProSQL);
+            _ProductRepository.GetAllProductRepository();
             return Ok(new RestOutput
             {
                 Success = false,
                 Message = "Authenticate success",
-                Data = getPro
+                Data = _ProductRepository.GetAllProductRepository()
             });
         }
     }
