@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Common
 {
@@ -34,7 +35,6 @@ namespace API.Common
         }
         public DataTable SqlQuery(string query, SqlParameter[] array = null)
         {
-            var dt = new DataTable();
             try
             {
                 //array là mảng tham số truyền vào theo kiểu dữ liệu SqlParameter
@@ -71,14 +71,16 @@ namespace API.Common
                 //    if (connectionState != ConnectionState.Closed)
                 //        conn.Close();
                 //}
-                string connString = _context.Database.GetDbConnection().ToString();
+                string connString = _context.Database.GetDbConnection().ConnectionString;
 
                 SqlConnection conn = new SqlConnection(connString);
-                SqlCommand cmd = new SqlCommand(query, conn);
+                //SqlCommand cmd = new SqlCommand(query, conn);
                 conn.Open();
 
                 // create data adapter
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                SqlDataAdapter da = new SqlDataAdapter();
+
+                da.SelectCommand = new SqlCommand(query, conn);
                 DataTable dataTable = new DataTable();
                 // this will query your database and return the result to your datatable
                 da.Fill(dataTable);

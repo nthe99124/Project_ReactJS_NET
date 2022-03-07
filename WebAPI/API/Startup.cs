@@ -43,6 +43,10 @@ namespace API
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllers();
+            // các Interface khác cần addTransient
+            //AddTransient - Một thể hiện của service sẽ được cung cấp đến mỗi class request nó.
+            //AddScoped - Một thể hiện của service sẽ được tạo trên mỗi request.
+            //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IProductRepository, ProductRepository>();
 
