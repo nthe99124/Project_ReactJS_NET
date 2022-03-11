@@ -46,17 +46,17 @@ namespace API.Common
             var entity = _dbset.Find(id);
             _dbset.Remove(entity);
         }
-        public IEnumerable<T> SqlQuery<T>(string query, SqlParameter[] array = null) where T : class
+        public IEnumerable<T> SqlQuery<T>(string query, List<SqlParameter> array = null) where T : class
         {
             return _entities.SqlQuery<T>(query, array);
         }
-        public DataTable SqlQuery(string query, SqlParameter[] array = null)
+        public async Task<DataTable> SqlQuery(string query, List<SqlParameter> array = null, Paging paging = null)
         {
-            return _entities.SqlQuery(query, array);
+            return await _entities.SqlQuery(query, array, paging);
         }
-        public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new()
+        public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, List<SqlParameter> array) where T : class, new()
         {
-            return _entities.ExecuteStoredProcedureObject<T>(nameProcedure, array);
+            return _entities.ExecuteStoredProcedureObject<T>(nameProcedure, array.ToArray());
         }
         public async Task<int> Save()
         {

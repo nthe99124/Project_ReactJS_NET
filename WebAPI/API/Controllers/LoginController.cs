@@ -34,14 +34,14 @@ namespace API.Controllers
             var userLog = _context.Users.SingleOrDefault(u => u.UserName == user.UserName && u.PassWord == user.Password);
             if (userLog == null)
             {
-                return Ok(new RestOutput
+                return Ok(new
                 {
                     Success = false,
                     Message = "Invalid username/password"
                 });
             }
             // grant token
-            return Ok(new RestOutput
+            return Ok(new
             {
                 Success = false,
                 Message = "Authenticate success",

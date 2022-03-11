@@ -33,6 +33,7 @@
     ".NETCoreApp,Version=v5.0": {
       "Model/1.0.0": {
         "dependencies": {
+          "Microsoft.Bcl.Async": "1.0.168",
           "Microsoft.EntityFrameworkCore": "5.0.10",
           "Microsoft.EntityFrameworkCore.SqlServer": "5.0.10",
           "Microsoft.EntityFrameworkCore.Tools": "5.0.10",
@@ -333,6 +334,36 @@
           }
         }
       },
+      "Microsoft.Bcl/1.1.8": {
+        "dependencies": {
+          "Microsoft.Bcl.Build": "1.0.14"
+        }
+      },
+      "Microsoft.Bcl.Async/1.0.168": {
+        "dependencies": {
+          "Microsoft.Bcl": "1.1.8"
+        },
+        "runtime": {
+          "lib/net40/Microsoft.Threading.Tasks.Extensions.Desktop.dll": {
+            "assemblyVersion": "1.0.168.0",
+            "fileVersion": "1.0.168.0"
+          },
+          "lib/net40/Microsoft.Threading.Tasks.Extensions.dll": {
+            "assemblyVersion": "1.0.12.0",
+            "fileVersion": "1.0.168.0"
+          },
+          "lib/net40/Microsoft.Threading.Tasks.dll": {
+            "assemblyVersion": "1.0.12.0",
+            "fileVersion": "1.0.168.0"
+          }
+        },
+        "compile": {
+          "lib/net40/Microsoft.Threading.Tasks.Extensions.Desktop.dll": {},
+          "lib/net40/Microsoft.Threading.Tasks.Extensions.dll": {},
+          "lib/net40/Microsoft.Threading.Tasks.dll": {}
+        }
+      },
+      "Microsoft.Bcl.Build/1.0.14": {},
       "Microsoft.CSharp/4.7.0": {},
       "Microsoft.Data.SqlClient/2.0.1": {
         "dependencies": {
@@ -3013,6 +3044,27 @@
       "sha512": "sha512-OiKusGL20vby4uDEswj2IgkdchC1yQ6rwbIkZDVBPIR6al2b7n3pC91elBul9q33KaBgRKhbZH3+2Ur4fnWx2A==",
       "path": "humanizer.core/2.8.26",
       "hashPath": "humanizer.core.2.8.26.nupkg.sha512"
+    },
+    "Microsoft.Bcl/1.1.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-gM+PUzd8ONxJpcPJeNppCJPklDhDuPUMVQkxvK4fe0rd9WyqBNPh4+UFx3Uv8zuG4C1Gapu1c25sfotE7TQtig==",
+      "path": "microsoft.bcl/1.1.8",
+      "hashPath": "microsoft.bcl.1.1.8.nupkg.sha512"
+    },
+    "Microsoft.Bcl.Async/1.0.168": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tUNC02eBwDKpGre0BcNIvblLv1q0Q3DnS/vtkRHj2FE1sXwt386HAudztyl5C0U88hllrqHDvtlz8bK0Y8cHDA==",
+      "path": "microsoft.bcl.async/1.0.168",
+      "hashPath": "microsoft.bcl.async.1.0.168.nupkg.sha512"
+    },
+    "Microsoft.Bcl.Build/1.0.14": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cDLKSvNvRa519hplsbSoYqO69TjdDIhfjtKUM0g20/nVROoWsGav9KCI9HtnGjLmdV1+TcUUDhbotcllibjPEA==",
+      "path": "microsoft.bcl.build/1.0.14",
+      "hashPath": "microsoft.bcl.build.1.0.14.nupkg.sha512"
     },
     "Microsoft.CSharp/4.7.0": {
       "type": "package",

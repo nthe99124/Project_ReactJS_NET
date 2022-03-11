@@ -7,7 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Model.BaseEntity;
 using Model.Common;
+using Model.ViewModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Controllers
 {
@@ -21,18 +23,17 @@ namespace API.Controllers
         {
             _ProductRepository = ProductRepository;
         }
-        [HttpGet("GetPro")]
+        [HttpGet("GetAllProduct")]
         [Authorize]
-        public IActionResult GetAllProduct()
+        // get loại đơn giảm từ URL : [FromUri], get loại phức tạp Body : [FromBody]
+        public async Task<IActionResult> GetAllProduct([FromQuery] int pageIndex = 1)
         {
-            //var getProSQL = "SELECT * FROM Product";
-            //var getPro = this.SqlQuery(getProSQL);
-            _ProductRepository.GetAllProductRepository();
-            return Ok(new RestOutput
+            // có cách nào chỉ lấy vài trường trong Product return về Data không? Hay bắt buộc phải tạo 1 ViewModel khác để thực hiện
+            return Ok(new RestOutput<Product_Brand_Color_Img>
             {
-                Success = false,
-                Message = "Authenticate success",
-                Data = _ProductRepository.GetAllProductRepository()
+                Success = true,
+                Message = "Success",
+                Data = await _ProductRepository.GetAllProductRepository(pageIndex)
             });
         }
     }

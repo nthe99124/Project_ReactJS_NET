@@ -12,8 +12,10 @@ namespace Model.Common
         // With lower version we can use "enable-migrations –EnableAutomaticMigration:$true" to create file (Configuration)
         // AutomaticMigrationsEnabled = true; -- only add table or bla bla but that be lost data
         // AutomaticMigrationDataLossAllowed = true; -- 
-        public MyDbContext(DbContextOptions options) : base(options)
+        public IConfiguration iConfig;
+        public MyDbContext(DbContextOptions options, IConfiguration _iConfig) : base(options)
         {
+            this.iConfig = _iConfig;
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -30,6 +32,7 @@ namespace Model.Common
         }
 
 
+        
 
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillStatus> BillStatus { get; set; }

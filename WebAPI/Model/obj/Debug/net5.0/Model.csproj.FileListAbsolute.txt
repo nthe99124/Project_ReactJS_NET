@@ -163,3 +163,6 @@ C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\obj\Debug\net5.0\refint\
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\obj\Debug\net5.0\Model.pdb
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\obj\Debug\net5.0\Model.genruntimeconfig.cache
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\obj\Debug\net5.0\ref\Model.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\bin\Debug\net5.0\Microsoft.Threading.Tasks.Extensions.Desktop.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\bin\Debug\net5.0\Microsoft.Threading.Tasks.Extensions.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\Model\bin\Debug\net5.0\Microsoft.Threading.Tasks.dll
