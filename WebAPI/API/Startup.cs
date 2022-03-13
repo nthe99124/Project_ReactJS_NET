@@ -49,6 +49,9 @@ namespace API
             //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductImageRepository, ProductImageRepository>();
+            services.AddTransient<IImageRepository, ImageRepository>();
+            services.AddTransient<IProductColorRepository, ProductColorRepository>();
 
 
 

@@ -13,7 +13,7 @@ namespace Model.BaseEntity
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int BrandID { get; set; }
+        public int? BrandID { get; set; }
         [ForeignKey("BrandID")]
         public Brand Brand { get; set; }
         public string Description { get; set; }

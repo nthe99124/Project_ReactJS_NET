@@ -66,7 +66,7 @@ namespace API.Common
             }
             catch (Exception ex)
             {
-                return -1;
+                throw;
                 //return _entities.Commit();
             }
 

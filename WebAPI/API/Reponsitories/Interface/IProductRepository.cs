@@ -9,6 +9,7 @@ namespace API.Reponsitories.Interface
 {
     public interface IProductRepository : IGenericReponsitory<Product>
     {
-        Task<List<Product_Brand_Color_Img>> GetAllProductRepository(int pageIndex);
+        Task<RestOutput<Product_Brand_Color_Img>> GetAllProductRepository(int pageIndex);
+        //Task<List<Product_Brand_Color_Img>> GetProductByAnyPoint(Product product, Brand brand, Color color, Image img, int pageIndex);
     }
 }
