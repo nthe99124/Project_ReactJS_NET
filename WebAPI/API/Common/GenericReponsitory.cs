@@ -1,20 +1,18 @@
 ﻿using API.Common.Interface;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Model.Common;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace API.Common
 {
     public class GenericReponsitory<T> : IGenericReponsitory<T> where T : class
     {
         protected readonly DbSet<T> _dbset;
-        protected readonly MyDbContext DbContext;
+        protected readonly MyDbContext _context;
         protected readonly IUnitOfWork _entities;
         protected GenericReponsitory(IUnitOfWork entities)
         {
@@ -25,17 +23,20 @@ namespace API.Common
         {
             return _dbset.AsEnumerable<T>();
         }
-        public async Task<T> Create(T entity)
+        public void Create(T entity)
         {
             _dbset.Add(entity);
-            await Save();
-            return entity;
+        }
+        public async Task CreateAsync(T entity)
+        {
+            await _dbset.AddAsync(entity);
         }
         public void Update(T entity)
         {
-            _dbset.Attach(entity);
-            DbContext.Entry(entity).State = EntityState.Modified;
-
+            //_dbset.Attach(entity);
+            //DbContext.Entry(entity).State = EntityState.Modified;
+            //_entities.Set<Entity>();
+            _context.Entry(entity).State = EntityState.Modified;
         }
         public void Delete(T entity)
         {
@@ -46,31 +47,25 @@ namespace API.Common
             var entity = _dbset.Find(id);
             _dbset.Remove(entity);
         }
-        public IEnumerable<T> SqlQuery<T>(string query, List<SqlParameter> array = null) where T : class
+        public async Task<DataTable> SqlQuery(string query, Paging paging = null, List<SqlParameter> array = null)
         {
-            return _entities.SqlQuery<T>(query, array);
-        }
-        public async Task<DataTable> SqlQuery(string query, List<SqlParameter> array = null, Paging paging = null)
-        {
-            return await _entities.SqlQuery(query, array, paging);
+            try
+            {
+                //array là mảng tham số truyền vào theo kiểu dữ liệu SqlParameter
+                return await _entities.SqlQuery(query, paging, array);
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
         }
         public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, List<SqlParameter> array) where T : class, new()
         {
             return _entities.ExecuteStoredProcedureObject<T>(nameProcedure, array.ToArray());
         }
-        public async Task<int> Save()
+        public async Task Save()
         {
-            try
-            {
-                return await _entities.CommitAsync();
-            }
-            catch (Exception ex)
-            {
-                throw;
-                //return _entities.Commit();
-            }
-
+            await _entities.CommitAsync();
         }
-
     }
 }

@@ -11,6 +11,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
@@ -24,34 +25,40 @@ namespace API.Common
             _context = context;
         }
 
-        public async Task<int> CommitAsync()
+        public async Task CommitAsync()
         {
-            return await _context.SaveChangesAsync();
+            // sử dụng Using thì không cần Dispose
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    scope.Complete();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
+        }
+        public void Commit()
+        {
+            using (TransactionScope scope = new TransactionScope())
+            {
+                try
+                {
+                    _context.SaveChanges();
+                    scope.Complete();
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+            }
         }
         public DbSet<T> Set<T>() where T : class
         {
             return _context.Set<T>();
-        }
-        public IEnumerable<dynamic> AsDynamicEnumerable(DataTable table)
-        {
-            // Validate argument here..
-
-            return table.AsEnumerable().Select(row => GetFromRow(row));
-        }
-
-        public dynamic GetFromRow(DataRow dr)
-        {
-            dynamic obj = new ExpandoObject();
-            foreach (DataColumn column in dr.Table.Columns)
-            {
-                var dic = (IDictionary<string, object>)obj;
-                dic[column.ColumnName] = dr[column];
-            }
-            return obj;
-        }
-        public IEnumerable<T> SqlQuery<T>(string query, List<SqlParameter> array = null) where T : class
-        {
-            return _context.Set<T>().FromSqlRaw(query, array);
         }
         /// <summary>
         /// Push SqlQuery 
@@ -60,29 +67,27 @@ namespace API.Common
         /// <param name="array"></param>
         /// <param name="paging">paging</param>
         /// <returns></returns>
-        public async Task<DataTable> SqlQuery(string query, List<SqlParameter> array = null, Paging paging = null)
+        public async Task<DataTable> SqlQuery(string query, Paging paging = null, List<SqlParameter> array = null)
         {
             try
             {
-
-                //chuoi nay van lay theo connection String cu
-                //string connString = _context.Database.GetDbConnection().ConnectionString;
                 if (paging != null) query += " ORDER BY " + paging.pagingOrderBy + " " + paging.typeSort + @" OFFSET " + (paging.pageFind - 1) * paging.pageSize + " ROWS FETCH NEXT " + paging.pageSize + " ROWS ONLY";
-                string connString = @"Data Source=DESKTOP-3AIN6DL;Initial Catalog=LaptopDB;User ID=sa;Password=Nguyenthe99";
+                string connString = _context.iConfig.GetConnectionString("Laptop");
                 SqlConnection conn = new SqlConnection(connString);
                 //SqlCommand cmd = new SqlCommand(query, conn);
-                conn.Open();
-
+                await conn.OpenAsync();
                 // create data adapter
                 using SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = new SqlCommand(query, conn);
                 da.SelectCommand.CommandType = CommandType.Text;
-                da.SelectCommand.Parameters.AddRange(array.ToArray());
-
+                if (array != null)
+                {
+                    da.SelectCommand.Parameters.AddRange(array.ToArray());
+                }
                 DataTable dataTable = new DataTable();
                 // this will query your database and return the result to your datatable
                 da.Fill(dataTable);
-                conn.Close();
+                await conn.CloseAsync();
                 da.Dispose();
                 //var List = this.AsDynamicEnumerable(dataTable).ToList();
                 return dataTable;

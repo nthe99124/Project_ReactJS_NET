@@ -10,11 +10,11 @@ namespace Model.BaseEntity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long UserID { get; set; }
         [ForeignKey("UserID")]
-        public User User { get; set; }
-        public int RoleID { get; set; }
+        public long UserID { get; set; }
+        public virtual User User { get; set; }
         [ForeignKey("RoleID")]
-        public Role Role { get; set; }
+        public int RoleID { get; set; }
+        public virtual Role Role { get; set; }
     }
 }

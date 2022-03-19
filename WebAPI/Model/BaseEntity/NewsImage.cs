@@ -11,11 +11,11 @@ namespace Model.BaseEntity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long NewsID { get; set; }
         [ForeignKey("NewsID")]
-        public News News { get; set; }
-        public long ImageID { get; set; }
+        public long NewsID { get; set; }
+        public virtual News News { get; set; }
         [ForeignKey("ImageID")]
-        public Image Image { get; set; }
+        public long ImageID { get; set; }
+        public virtual Image Image { get; set; }
     }
 }

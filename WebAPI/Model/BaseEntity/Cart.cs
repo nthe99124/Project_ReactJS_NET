@@ -11,11 +11,11 @@ namespace Model.BaseEntity
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
-        public long ProductId { get; set; }
         [ForeignKey("ProductId")]
+        public long ProductId { get; set; }
         public Product Product { get; set; }
-        public long CustomerId { get; set; }
         [ForeignKey("CustomerId")]
+        public long CustomerId { get; set; }
         public User User { get; set; }
         public int QuantityPurschased { get; set; }
 

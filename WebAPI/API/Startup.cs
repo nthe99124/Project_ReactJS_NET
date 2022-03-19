@@ -36,10 +36,14 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             // if not use, system back error: "unable to resolve service for type..."
-            services.AddScoped<DbContext, MyDbContext>();
-            services.AddDbContext<MyDbContext>(option => option.UseSqlServer("Data Source=.;Initial Catalog=LaptopDB;Integrated Security=True"));
+            //services.AddScoped<DbContext, MyDbContext>();
+            //services.AddDbContext<MyDbContext>(option => option.UseSqlServer("Data Source=.;Initial Catalog=LaptopDB;Integrated Security=True"));
 
             // add to use in controller
+            services.AddDbContext<MyDbContext>(option =>
+            {
+                option.UseSqlServer(Configuration.GetConnectionString("Laptop"));
+            });
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllers();
@@ -49,9 +53,9 @@ namespace API
             //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IProductImageRepository, ProductImageRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
             services.AddTransient<IProductColorRepository, ProductColorRepository>();
+            services.AddTransient<IProductImageRepository, ProductImageRepository>();
 
 
 

@@ -13,18 +13,18 @@ namespace Model.BaseEntity
         public long Id { get; set; }
         [Required]
         public string Name { get; set; }
-        public int? BrandID { get; set; }
         [ForeignKey("BrandID")]
+        public int? BrandID { get; set; }
         public Brand Brand { get; set; }
         public string Description { get; set; }
-        [Column(TypeName = "money")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal Price { get; set; }
-        [Column(TypeName = "money")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal PromotionPrice { get; set; }
         //option include: CPU,GPU,RAM,ROM,Monitor,Operating,Battery
         public string Option { get; set; }
         // type of product (config in dataType)
-        public int Type { get; set; }
+        public int? Type { get; set; }
         [Column(TypeName = "decimal(18,0)")]
         public decimal Warranty { get; set; }
         [Column(TypeName = "decimal(18,0)")]

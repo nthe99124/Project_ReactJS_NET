@@ -15,7 +15,9 @@ namespace Model.BaseEntity
         [Required]
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Image { get; set; }
+        [ForeignKey("ImageID")]
+        public long? ImageID { get; set; }
+        public virtual Image Image { get; set; }
 
     }
 }

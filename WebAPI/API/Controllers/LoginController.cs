@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Model.BaseEntity;
 using Model.Common;
 using Model.ViewModel;
 using System;
@@ -13,6 +12,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using MyDbContext = API.Common.MyDbContext;
 
 namespace API.Controllers
 {
@@ -43,7 +43,7 @@ namespace API.Controllers
             // grant token
             return Ok(new
             {
-                Success = false,
+                Success = true,
                 Message = "Authenticate success",
                 Data = GenerateToken(user)
             });

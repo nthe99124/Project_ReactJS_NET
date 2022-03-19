@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Model.BaseEntity;
 using Model.Common;
 using Model.ViewModel;
+using Model.ViewModel.Product;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,14 +22,12 @@ namespace API.Controllers
     {
         private readonly IProductRepository _ProductRepository;
         private readonly IProductColorRepository _ProductColorRepository;
-        private readonly IProductImageRepository _ProductImageRepository;
         private readonly IImageRepository _ImageRepository;
 
-        public ProductController(IProductRepository ProductRepository, IImageRepository ImageRepository, IProductColorRepository ProductColorRepository, IProductImageRepository ProductImageRepository)
+        public ProductController(IProductRepository ProductRepository, IImageRepository ImageRepository, IProductColorRepository ProductColorRepository)
         {
             _ProductRepository = ProductRepository;
             _ProductColorRepository = ProductColorRepository;
-            _ProductImageRepository = ProductImageRepository;
             _ImageRepository = ImageRepository;
         }
         [HttpGet("GetAllProduct")]
@@ -50,61 +49,85 @@ namespace API.Controllers
             }
             return Ok(Respon);
         }
-        //public async Task<IActionResult>
-        [HttpPost("InsertProduct")]
+        [HttpGet("GetProductByAnyPoint")]
         [Authorize]
-        public async Task<IActionResult> InsertProduct([FromBody] Product_Brand_Color_Img pro)
+        public async Task<IActionResult> GetProductByAnyPoint(Product_Brand_Color_Img pro, int pageIndex = 0)
         {
-            // vấn đề transaction với nhiều lệnh insert như thế này.
-            var Product = new Product
+            var Respon = await _ProductRepository.GetProductByAnyPoint(pro, pageIndex);
+            if (Respon != null)
             {
-                //Id = pro.Id,
-                Name = pro.NamePro,
-                BrandID = pro.IdBrand == null ? 0 : pro.IdBrand,
-                Description = pro.Description,
-                Price = pro.Price,
-                PromotionPrice = pro.PromotionPrice,
-                Option = pro.Option,
-                Type = pro.Type,
-                Warranty = pro.Warranty,
-                Weight = pro.Weight,
-                Size = pro.Size,
-                CreatedBy = 1,
-                CreatedOn = DateTime.Now,
-                UpdatedBy = 1,
-                UpdatedOn = DateTime.Now,
-            };
-            Product = await _ProductRepository.Create(Product);
-            var ColorPro = new ProductColor
-            {
-                ProductID = Product.Id,
-                ColorID = pro.IdColor
-            };
-            ColorPro = await _ProductColorRepository.Create(ColorPro);
-            var Img = new Image
-            {
-                Id = pro.IdImage,
-                UrlImage = pro.UrlImage
-            };
-            Img = await _ImageRepository.Create(Img);
-            var ImgPro = new ProductImage
-            {
-                ProductID = Product.Id,
-                ImageID = Img.Id,
-            };
-            ImgPro = await _ProductImageRepository.Create(ImgPro);
-            var rs = new RestOutput<Product_Brand_Color_Img>();
-
-            if (ImgPro != null && Img != null && ColorPro != null && Product != null)
-            {
-                rs.Success = true;
-                rs.Message = "Insert Success";
+                Respon.Success = true;
+                Respon.Message = "Success";
             }
             else
             {
-                rs.Success = false;
-                rs.Message = "Insert Fails";
+                Respon.Success = false;
+                Respon.Message = "Null";
             }
+            return Ok(Respon);
+        }
+        [HttpPost("InsertProduct")]
+        [Authorize]
+        public async Task<IActionResult> InsertProduct([FromBody] ProductInsert pro)
+        {
+            // vấn đề transaction với nhiều lệnh insert như thế này.
+            // trường hợp này sẽ không lấy được Id của Insert trước => phải Count để lấy
+            //=> tạm thời dùng store
+            //var Product = new Product
+            //{
+            //    //Id = pro.Id,
+            //    Name = pro.NamePro,
+            //    BrandID = pro.IdBrand == null ? null : pro.IdBrand,
+            //    Description = pro.Description,
+            //    Price = pro.Price,
+            //    PromotionPrice = pro.PromotionPrice,
+            //    Option = pro.Option,
+            //    Type = pro.Type,
+            //    Warranty = pro.Warranty,
+            //    Weight = pro.Weight,
+            //    Size = pro.Size,
+            //    CreatedBy = 1,
+            //    CreatedOn = DateTime.Now,
+            //    UpdatedBy = 1,
+            //    UpdatedOn = DateTime.Now,
+            //};
+            //await _ProductRepository.CreateAsync(Product);
+            //for (int i = 0; i < pro.ColorID.Count; i++)
+            //{
+            //    await _ProductColorRepository.CreateAsync(new ProductColor
+            //    {
+            //        ProductID = Product.Id,
+            //        ColorID = pro.ColorID[i],
+            //        CreatedBy = 1,
+            //        CreatedOn = DateTime.Now,
+            //        UpdatedBy = 1,
+            //        UpdatedOn = DateTime.Now,
+            //    });
+            //}
+            //for (int i = 0; i < pro.UrlImage.Count; i++)
+            //{
+            //    var Image = await _ImageRepository.CreateAsync(new Image
+            //    {
+            //        UrlImage = pro.UrlImage[i],
+            //        CreatedBy = 1,
+            //        CreatedOn = DateTime.Now,
+            //        UpdatedBy = 1,
+            //        UpdatedOn = DateTime.Now,
+            //    });
+            //    await _ImageRepository.CreateAsync(new ProductImage
+            //    {
+            //        ProductID = Product.Id,
+            //        ImageID = Image.Id,
+            //        CreatedBy = 1,
+            //        CreatedOn = DateTime.Now,
+            //        UpdatedBy = 1,
+            //        UpdatedOn = DateTime.Now,
+            //    });
+            //}
+            await _ProductRepository.Save();
+            var rs = new RestOutput<Product_Brand_Color_Img>();
+            rs.Success = true;
+            rs.Message = "Insert Success";
             return Ok(rs);
         }
     }

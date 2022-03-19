@@ -130,12 +130,8 @@ C:\Users\nthe9\OneDrive\Máy tính\Project_Angular_NET\WebAPI\API\obj\Debug\net5
 C:\Users\nthe9\OneDrive\Máy tính\Project_Angular_NET\WebAPI\API\obj\Debug\net5.0\API.pdb
 C:\Users\nthe9\OneDrive\Máy tính\Project_Angular_NET\WebAPI\API\obj\Debug\net5.0\API.genruntimeconfig.cache
 C:\Users\nthe9\OneDrive\Máy tính\Project_Angular_NET\WebAPI\API\obj\Debug\net5.0\ref\API.dll
-C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Model.deps.json
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\appsettings.Development.json
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\appsettings.json
-C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Model.runtimeconfig.json
-C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Model.runtimeconfig.dev.json
-C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Model.exe
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\API.deps.json
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\API.runtimeconfig.json
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\API.runtimeconfig.dev.json
@@ -203,3 +199,7 @@ C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\System.Ne
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\System.Web.Http.dll
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Microsoft.Extensions.Configuration.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Microsoft.Extensions.Configuration.Abstractions.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\Microsoft.Extensions.Primitives.dll
+C:\Users\nthe9\Desktop\Project_Angular_NET\WebAPI\API\bin\Debug\net5.0\System.Runtime.CompilerServices.Unsafe.dll
