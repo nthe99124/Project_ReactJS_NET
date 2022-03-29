@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Model.BaseEntity;
 using Model.Common;
 using System;
 using System.Collections.Generic;
@@ -51,11 +52,18 @@ namespace API
             //AddTransient - Một thể hiện của service sẽ được cung cấp đến mỗi class request nó.
             //AddScoped - Một thể hiện của service sẽ được tạo trên mỗi request.
             //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IGenericReponsitory<Product>, GenericReponsitory<Product>>();
+            services.AddTransient<IGenericReponsitory<Image>, GenericReponsitory<Image>>();
+            services.AddTransient<IGenericReponsitory<ProductColor>, GenericReponsitory<ProductColor>>();
+            services.AddTransient<IGenericReponsitory<ProductImage>, GenericReponsitory<ProductImage>>();
+            services.AddTransient<UnitOfWork>();
+
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
             services.AddTransient<IProductColorRepository, ProductColorRepository>();
             services.AddTransient<IProductImageRepository, ProductImageRepository>();
+
+
 
 
 
@@ -101,6 +109,7 @@ namespace API
                 {
                     opt.TokenValidationParameters = new TokenValidationParameters
                     {
+                        // các mã xác thực thông báo
                         //grant token
                         ValidateIssuer = false,
                         ValidateAudience = false,
@@ -121,11 +130,13 @@ namespace API
 
             if (env.IsDevelopment())
             {
+                // return exception to page
                 app.UseDeveloperExceptionPage();
+                // middleware for swagger
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
-
+            // auto redirection from http to https
             app.UseHttpsRedirection();
             app.UseRouting();
 
@@ -133,6 +144,9 @@ namespace API
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            // postman lỗi, swagger vẫn được
+            //app.UseMiddleware<FirstMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

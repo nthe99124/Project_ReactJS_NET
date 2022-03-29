@@ -13,8 +13,7 @@ namespace API.Common.Interface
         Task CommitAsync();
         void Commit();
         DbSet<T> Set<T>() where T : class;
-        Task<DataTable> SqlQuery(string query, Paging paging = null, List<SqlParameter> array = null);
-        IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new();
+
 
     }
 }

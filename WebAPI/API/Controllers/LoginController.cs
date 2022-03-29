@@ -61,7 +61,7 @@ namespace API.Controllers
                     //new Claim("Id",user.Id.ToString()),
                     new Claim("TokenId",Guid.NewGuid().ToString())
                 }),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyByte), SecurityAlgorithms.HmacSha512Signature)
             };
             var token = jwtToken.CreateToken(tokenDescription);

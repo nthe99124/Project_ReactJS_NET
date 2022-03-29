@@ -5,7 +5,7 @@ namespace Model.ViewModel
 {
     public class Product_Brand_Color_Img
     {
-        public long Id { get; set; }
+        public long IdPro { get; set; }
         public string NamePro { get; set; }
         public string Description { get; set; }
         public string NameBrand { get; set; }

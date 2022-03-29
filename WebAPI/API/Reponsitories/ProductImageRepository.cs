@@ -18,6 +18,6 @@ namespace API.Reponsitories
 {
     public class ProductImageRepository : GenericReponsitory<ProductImage>, IProductImageRepository
     {
-        public ProductImageRepository(IUnitOfWork context) : base(context) { }
+        public ProductImageRepository(MyDbContext context) : base(context) { }
     }
 }

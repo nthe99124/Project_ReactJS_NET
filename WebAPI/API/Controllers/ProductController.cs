@@ -20,15 +20,17 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly UnitOfWork _unitOfWork;
         private readonly IProductRepository _ProductRepository;
         private readonly IProductColorRepository _ProductColorRepository;
         private readonly IImageRepository _ImageRepository;
 
-        public ProductController(IProductRepository ProductRepository, IImageRepository ImageRepository, IProductColorRepository ProductColorRepository)
+        public ProductController(IProductRepository ProductRepository, IImageRepository ImageRepository, IProductColorRepository ProductColorRepository, UnitOfWork unitOfWork)
         {
             _ProductRepository = ProductRepository;
             _ProductColorRepository = ProductColorRepository;
             _ImageRepository = ImageRepository;
+            _unitOfWork = unitOfWork;
         }
         [HttpGet("GetAllProduct")]
         [Authorize]
@@ -65,6 +67,7 @@ namespace API.Controllers
                 Respon.Message = "Null";
             }
             return Ok(Respon);
+            //return NotFound()
         }
         [HttpPost("InsertProduct")]
         [Authorize]
@@ -73,62 +76,75 @@ namespace API.Controllers
             // vấn đề transaction với nhiều lệnh insert như thế này.
             // trường hợp này sẽ không lấy được Id của Insert trước => phải Count để lấy
             //=> tạm thời dùng store
-            //var Product = new Product
-            //{
-            //    //Id = pro.Id,
-            //    Name = pro.NamePro,
-            //    BrandID = pro.IdBrand == null ? null : pro.IdBrand,
-            //    Description = pro.Description,
-            //    Price = pro.Price,
-            //    PromotionPrice = pro.PromotionPrice,
-            //    Option = pro.Option,
-            //    Type = pro.Type,
-            //    Warranty = pro.Warranty,
-            //    Weight = pro.Weight,
-            //    Size = pro.Size,
-            //    CreatedBy = 1,
-            //    CreatedOn = DateTime.Now,
-            //    UpdatedBy = 1,
-            //    UpdatedOn = DateTime.Now,
-            //};
-            //await _ProductRepository.CreateAsync(Product);
-            //for (int i = 0; i < pro.ColorID.Count; i++)
-            //{
-            //    await _ProductColorRepository.CreateAsync(new ProductColor
-            //    {
-            //        ProductID = Product.Id,
-            //        ColorID = pro.ColorID[i],
-            //        CreatedBy = 1,
-            //        CreatedOn = DateTime.Now,
-            //        UpdatedBy = 1,
-            //        UpdatedOn = DateTime.Now,
-            //    });
-            //}
-            //for (int i = 0; i < pro.UrlImage.Count; i++)
-            //{
-            //    var Image = await _ImageRepository.CreateAsync(new Image
-            //    {
-            //        UrlImage = pro.UrlImage[i],
-            //        CreatedBy = 1,
-            //        CreatedOn = DateTime.Now,
-            //        UpdatedBy = 1,
-            //        UpdatedOn = DateTime.Now,
-            //    });
-            //    await _ImageRepository.CreateAsync(new ProductImage
-            //    {
-            //        ProductID = Product.Id,
-            //        ImageID = Image.Id,
-            //        CreatedBy = 1,
-            //        CreatedOn = DateTime.Now,
-            //        UpdatedBy = 1,
-            //        UpdatedOn = DateTime.Now,
-            //    });
-            //}
-            await _ProductRepository.Save();
+
+            // vấn đề lấy ID cho thằng sau Insert, khi mà SaveChange chưa được thực thi????
+            var Product = new Product
+            {
+                //Id = pro.Id,
+                Name = pro.NamePro,
+                BrandID = pro.IdBrand == null ? null : pro.IdBrand,
+                Description = pro.Description,
+                Price = pro.Price,
+                PromotionPrice = pro.PromotionPrice,
+                Option = pro.Option,
+                Type = pro.Type,
+                Warranty = pro.Warranty,
+                Weight = pro.Weight,
+                Size = pro.Size,
+                CreatedBy = 1,
+                CreatedOn = DateTime.Now,
+                UpdatedBy = 1,
+                UpdatedOn = DateTime.Now,
+            };
+            await _unitOfWork.ProductResponsitory.CreateAsync(Product);
+            // ngoài cách này còn cách nào nữa không?
+            var IdProduct = _unitOfWork.ProductResponsitory.GetLastID<Product>(x => x.Id) + 1;
+            if(pro.ColorID != null)
+            {
+                for (int i = 0; i < pro.ColorID.Count; i++)
+                {
+                    await _unitOfWork.ProductColorResponsitory.CreateAsync(new ProductColor
+                    {
+                        ProductID = IdProduct,
+                        ColorID = pro.ColorID[i],
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = 1,
+                        UpdatedOn = DateTime.Now,
+                    });
+                }
+            }
+            if (pro.UrlImage != null)
+            {
+                for (int i = 0; i < pro.UrlImage.Count; i++)
+                {
+                    await _unitOfWork.ImageResponsitory.CreateAsync(new Image
+                    {
+                        UrlImage = pro.UrlImage[i],
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = 1,
+                        UpdatedOn = DateTime.Now,
+                    });
+                    var IdImage = _unitOfWork.ProductResponsitory.GetLastID<Image>(x => x.Id) + 1;
+                    await _unitOfWork.ProductImageResponsitory.CreateAsync(new ProductImage
+                    {
+                        ProductID = IdProduct,
+                        ImageID = IdImage,
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = 1,
+                        UpdatedOn = DateTime.Now,
+                    });
+                }
+            }
+            
+            await _unitOfWork.CommitAsync();
             var rs = new RestOutput<Product_Brand_Color_Img>();
             rs.Success = true;
-            rs.Message = "Insert Success";
+            rs.Message = " Success";
             return Ok(rs);
+Insert
         }
     }
 }

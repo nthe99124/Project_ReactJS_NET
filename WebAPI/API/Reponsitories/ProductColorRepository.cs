@@ -18,6 +18,6 @@ namespace API.Reponsitories
 {
     public class ProductColorRepository : GenericReponsitory<ProductColor>, IProductColorRepository
     {
-        public ProductColorRepository(IUnitOfWork context) : base(context) { }
+        public ProductColorRepository(MyDbContext context) : base(context) { }
     }
 }
