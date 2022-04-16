@@ -17,7 +17,6 @@ namespace API.Common
             get { return pageCount; }
             set
             {
-                //pageCount = (TotalRecords / PageSize = Convert.ToInt32(TotalRecords / PageSize)) ? TotalRecords / PageSize : TotalRecords / PageSize + 1;
                 if (TotalRecords == 0)
                 {
                     pageCount = 0;

@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Model.BaseEntity;
-using Model.Common;
 using Model.ViewModel;
 using Model.ViewModel.Product;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static Model.Common.DataType;
 
 namespace API.Controllers
 {
@@ -69,18 +70,129 @@ namespace API.Controllers
             return Ok(Respon);
             //return NotFound()
         }
+        //[HttpPost("InsertProduct")]
+        //[Authorize]
+        //public async Task<IActionResult> InsertProduct([FromBody] ProductInsert pro)
+        //{
+        //    // vấn đề transaction với nhiều lệnh insert như thế này.
+        //    // trường hợp này sẽ không lấy được Id của Insert trước => phải Count để lấy
+        //    //=> tạm thời dùng store
+
+        //    // vấn đề lấy ID cho thằng sau Insert, khi mà SaveChange chưa được thực thi????
+        //    var Product = new Product
+        //    {
+        //        //Id = pro.Id,
+        //        Name = pro.NamePro,
+        //        BrandID = pro.IdBrand == null ? null : pro.IdBrand,
+        //        Description = pro.Description,
+        //        Price = pro.Price,
+        //        PromotionPrice = pro.PromotionPrice,
+        //        Option = pro.Option,
+        //        Type = pro.Type,
+        //        Warranty = pro.Warranty,
+        //        Weight = pro.Weight,
+        //        Size = pro.Size,
+        //        CreatedBy = 1,
+        //        CreatedOn = DateTime.Now,
+        //        UpdatedBy = 1,
+        //        UpdatedOn = DateTime.Now,
+        //    };
+        //    await _unitOfWork.ProductResponsitory.CreateAsync(Product);
+        //    // ngoài cách này còn cách nào nữa không?
+        //    var IdProduct = _unitOfWork.ProductResponsitory.GetLastID<Product>(x => x.Id) + 1;
+        //    if(pro.ColorID != null)
+        //    {
+        //        for (int i = 0; i < pro.ColorID.Count; i++)
+        //        {
+        //            await _unitOfWork.ProductColorResponsitory.CreateAsync(new ProductColor
+        //            {
+        //                ProductID = IdProduct,
+        //                ColorID = pro.ColorID[i],
+        //                CreatedBy = 1,
+        //                CreatedOn = DateTime.Now,
+        //                UpdatedBy = 1,
+        //                UpdatedOn = DateTime.Now,
+        //            });
+        //        }
+        //    }
+        //    if (pro.UrlImage != null)
+        //    {
+        //        for (int i = 0; i < pro.UrlImage.Count; i++)
+        //        {
+        //            await _unitOfWork.ImageResponsitory.CreateAsync(new Image
+        //            {
+        //                UrlImage = pro.UrlImage[i],
+        //                CreatedBy = 1,
+        //                CreatedOn = DateTime.Now,
+        //                UpdatedBy = 1,
+        //                UpdatedOn = DateTime.Now,
+        //            });
+        //            var IdImage = _unitOfWork.ProductResponsitory.GetLastID<Image>(x => x.Id) + 1;
+        //            await _unitOfWork.ProductImageResponsitory.CreateAsync(new ProductImage
+        //            {
+        //                ProductID = IdProduct,
+        //                ImageID = IdImage,
+        //                CreatedBy = 1,
+        //                CreatedOn = DateTime.Now,
+        //                UpdatedBy = 1,
+        //                UpdatedOn = DateTime.Now,
+        //            });
+        //        }
+        //    }
+
+        //    await _unitOfWork.CommitAsync();
+        //    var rs = new RestOutput<Product_Brand_Color_Img>();
+        //    rs.Success = true;
+        //    rs.Message = " Success";
+        //    return Ok(rs);
+        //}
+
         [HttpPost("InsertProduct")]
         [Authorize]
         public async Task<IActionResult> InsertProduct([FromBody] ProductInsert pro)
         {
-            // vấn đề transaction với nhiều lệnh insert như thế này.
-            // trường hợp này sẽ không lấy được Id của Insert trước => phải Count để lấy
-            //=> tạm thời dùng store
-
-            // vấn đề lấy ID cho thằng sau Insert, khi mà SaveChange chưa được thực thi????
-            var Product = new Product
+            var ProductColor = new List<ProductColor>();
+            if (pro.ColorID != null)
             {
-                //Id = pro.Id,
+
+                for (int i = 0; i < pro.ColorID.Count; i++)
+                {
+                    ProductColor.Add(new ProductColor
+                    {
+                        ColorID = pro.ColorID[i],
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = 1,
+                        UpdatedOn = DateTime.Now,
+                    });
+                }
+            }
+
+            var ProductImage = new List<ProductImage>();
+            if (pro.UrlImage != null)
+            {
+
+                for (int i = 0; i < pro.UrlImage.Count; i++)
+                {
+                    ProductImage.Add(new ProductImage
+                    {
+                        CreatedBy = 1,
+                        CreatedOn = DateTime.Now,
+                        UpdatedBy = 1,
+                        UpdatedOn = DateTime.Now,
+                        Image = new Image
+                        {
+                            UrlImage = pro.UrlImage[i],
+                            CreatedBy = 1,
+                            CreatedOn = DateTime.Now,
+                            UpdatedBy = 1,
+                            UpdatedOn = DateTime.Now,
+                        }
+                    });
+                }
+            }
+            var Product = new Model.BaseEntity.Product
+            {
                 Name = pro.NamePro,
                 BrandID = pro.IdBrand == null ? null : pro.IdBrand,
                 Description = pro.Description,
@@ -95,56 +207,15 @@ namespace API.Controllers
                 CreatedOn = DateTime.Now,
                 UpdatedBy = 1,
                 UpdatedOn = DateTime.Now,
+                ProductColor = ProductColor,
+                ProductImage = ProductImage
             };
             await _unitOfWork.ProductResponsitory.CreateAsync(Product);
-            // ngoài cách này còn cách nào nữa không?
-            var IdProduct = _unitOfWork.ProductResponsitory.GetLastID<Product>(x => x.Id) + 1;
-            if(pro.ColorID != null)
-            {
-                for (int i = 0; i < pro.ColorID.Count; i++)
-                {
-                    await _unitOfWork.ProductColorResponsitory.CreateAsync(new ProductColor
-                    {
-                        ProductID = IdProduct,
-                        ColorID = pro.ColorID[i],
-                        CreatedBy = 1,
-                        CreatedOn = DateTime.Now,
-                        UpdatedBy = 1,
-                        UpdatedOn = DateTime.Now,
-                    });
-                }
-            }
-            if (pro.UrlImage != null)
-            {
-                for (int i = 0; i < pro.UrlImage.Count; i++)
-                {
-                    await _unitOfWork.ImageResponsitory.CreateAsync(new Image
-                    {
-                        UrlImage = pro.UrlImage[i],
-                        CreatedBy = 1,
-                        CreatedOn = DateTime.Now,
-                        UpdatedBy = 1,
-                        UpdatedOn = DateTime.Now,
-                    });
-                    var IdImage = _unitOfWork.ProductResponsitory.GetLastID<Image>(x => x.Id) + 1;
-                    await _unitOfWork.ProductImageResponsitory.CreateAsync(new ProductImage
-                    {
-                        ProductID = IdProduct,
-                        ImageID = IdImage,
-                        CreatedBy = 1,
-                        CreatedOn = DateTime.Now,
-                        UpdatedBy = 1,
-                        UpdatedOn = DateTime.Now,
-                    });
-                }
-            }
-            
             await _unitOfWork.CommitAsync();
-            var rs = new RestOutput<Product_Brand_Color_Img>();
+            var rs = new RestOutputCommand<Product_Brand_Color_Img>();
             rs.Success = true;
-            rs.Message = " Success";
+            rs.Message = "Success";
             return Ok(rs);
-Insert
         }
     }
 }

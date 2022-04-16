@@ -28,6 +28,10 @@ namespace API.Common
         {
             return _dbset.AsEnumerable<T>();
         }
+        public int GetRecordAll()
+        {
+            return _dbset.Count();
+        }
         public long GetLastID<TTable>(Func<TTable, dynamic> columnSelector) where TTable : class
         {
             return _context.Set<TTable>().Max(columnSelector);

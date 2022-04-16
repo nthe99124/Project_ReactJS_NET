@@ -1013,11 +1013,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj",
+      "projectUniqueName": "C:\\Users\\nthe9\\Desktop\\ProjectAPI\\ProjectAPI\\WebAPI\\Model\\Model.csproj",
       "projectName": "Model",
-      "projectPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\Model.csproj",
+      "projectPath": "C:\\Users\\nthe9\\Desktop\\ProjectAPI\\ProjectAPI\\WebAPI\\Model\\Model.csproj",
       "packagesPath": "C:\\Users\\nthe9\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\Model\\obj\\",
+      "outputPath": "C:\\Users\\nthe9\\Desktop\\ProjectAPI\\ProjectAPI\\WebAPI\\Model\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nthe9\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -1075,12 +1075,26 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
+        "downloadDependencies": [
+          {
+            "name": "Microsoft.AspNetCore.App.Ref",
+            "version": "[5.0.0, 5.0.0]"
+          },
+          {
+            "name": "Microsoft.NETCore.App.Ref",
+            "version": "[5.0.0, 5.0.0]"
+          },
+          {
+            "name": "Microsoft.WindowsDesktop.App.Ref",
+            "version": "[5.0.0, 5.0.0]"
+          }
+        ],
         "frameworkReferences": {
           "Microsoft.NETCore.App": {
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.202\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -50,9 +50,12 @@ namespace API.Reponsitories
                                       Weight = Convert.ToDecimal(rw["Weight"]),
                                       Size = rw["Size"].ToString(),
                                   }).ToList();
+
+                var totalRecords = this.GetRecordAll();
                 return new RestOutput<Product_Brand_Color_Img>
                 {
                     Data = lstProduct,
+                    TotalRecords = totalRecords
                     // tính Total Records có cần query riêng? nếu chung query thì thấy thế nào?
                     // Hiện tại ở đây chỉ lấy số lượng bản ghi đó trong 1 trang
                     //TotalRecords = lstProduct.Count,
@@ -137,9 +140,11 @@ namespace API.Reponsitories
                                       Weight = Convert.ToDecimal(rw["Weight"]),
                                       Size = rw["Size"].ToString(),
                                   }).ToList();
+                var totalRecords = this.GetRecordAll();
                 return new RestOutput<Product_Brand_Color_Img>
                 {
                     Data = lstProduct,
+                    TotalRecords = totalRecords
                 };
             }
             catch (Exception)
