@@ -51,7 +51,7 @@ namespace API.Reponsitories
                                       Size = rw["Size"].ToString(),
                                   }).ToList();
 
-                var totalRecords = this.GetRecordAll();
+                var totalRecords = this.GetCountRecordAll();
                 return new RestOutput<Product_Brand_Color_Img>
                 {
                     Data = lstProduct,
@@ -140,7 +140,7 @@ namespace API.Reponsitories
                                       Weight = Convert.ToDecimal(rw["Weight"]),
                                       Size = rw["Size"].ToString(),
                                   }).ToList();
-                var totalRecords = this.GetRecordAll();
+                var totalRecords = this.GetCountRecordAll();
                 return new RestOutput<Product_Brand_Color_Img>
                 {
                     Data = lstProduct,

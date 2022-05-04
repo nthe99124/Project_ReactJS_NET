@@ -28,7 +28,7 @@ namespace API.Common
         {
             return _dbset.AsEnumerable<T>();
         }
-        public int GetRecordAll()
+        public int GetCountRecordAll()
         {
             return _dbset.Count();
         }
@@ -53,6 +53,10 @@ namespace API.Common
         {
             await _dbset.AddAsync(entity);
         }
+        public async Task CreateRangeAsync(List<T> entity)
+        {
+            await _dbset.AddRangeAsync(entity);
+        }
 
         public void Update(T entity)
         {
@@ -65,10 +69,15 @@ namespace API.Common
         {
             _dbset.Remove(entity);
         }
-        public void Delete(int id)
+        public void Delete(dynamic id)
         {
             var entity = _dbset.Find(id);
             _dbset.Remove(entity);
+        }
+        public void DeleteRange(Expression<Func<T, bool>> predicate)
+        {
+            var entity = _dbset.Where(predicate);
+            _dbset.RemoveRange(entity);
         }
 
         public async Task<DataTable> SqlQuery(string query, Paging paging = null, List<SqlParameter> array = null)

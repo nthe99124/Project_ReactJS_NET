@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Model.ViewModel.Product
 {
-    public class ProductInsert: Entity
+    public class ProductInsert : Entity
     {
         public long Id { get; set; }
         public string NamePro { get; set; }
