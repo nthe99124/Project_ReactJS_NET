@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace API.Common
 {
@@ -8,6 +7,5 @@ namespace API.Common
         public bool Success { get; set; }
         public string Message { get; set; }
         public List<T> Data { get; set; }
-
     }
 }

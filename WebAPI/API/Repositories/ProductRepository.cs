@@ -1,29 +1,21 @@
 ﻿using API.Common;
-using API.Common.Interface;
-using API.Reponsitories.Interface;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+using API.Repositories.Interface;
 using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
 using Model.BaseEntity;
-using Model.Common;
-using Model.ViewModel;
+using Model.ViewModel.Product;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using static System.Net.Mime.MediaTypeNames;
 
-namespace API.Reponsitories
+namespace API.Repositories
 {
-    public class ProductRepository : GenericReponsitory<Product>, IProductRepository
+    public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
         public ProductRepository(MyDbContext context) : base(context) { }
         // vấn đề: Nếu Constructor không có Paramter thì sẽ không báo lỗi, nếu có nhưng hiện tại sẽ có lỗi khi dùng DI
-        public async Task<RestOutput<Product_Brand_Color_Img>> GetAllProductRepository(int pageIndex = 0)
+        public async Task<RestOutput<ProductBrandColorImg>> GetAllProductRepository(int pageIndex = 0)
         {
             try
             {
@@ -33,10 +25,10 @@ namespace API.Reponsitories
                     LEFT JOIN ProductColor PC ON P.Id = PC.ProductID";
                 var para = new List<SqlParameter>();
                 //para.Add(new SqlParameter("@Name", "Laptop%"));
-                var paging = new Paging { pageFind = pageIndex, pagingOrderBy = "NamePro" };
+                var paging = new Paging { PageFind = pageIndex, PagingOrderBy = "NamePro" };
                 var rs = await this.SqlQuery(getProSQL, paging);
                 var lstProduct = (from rw in rs.AsEnumerable()
-                                  select new Product_Brand_Color_Img()
+                                  select new ProductBrandColorImg()
                                   {
                                       IdPro = Convert.ToUInt32(rw["IdPro"]),
                                       NamePro = rw["NamePro"].ToString(),
@@ -52,7 +44,7 @@ namespace API.Reponsitories
                                   }).ToList();
 
                 var totalRecords = this.GetCountRecordAll();
-                return new RestOutput<Product_Brand_Color_Img>
+                return new RestOutput<ProductBrandColorImg>
                 {
                     Data = lstProduct,
                     TotalRecords = totalRecords
@@ -61,13 +53,13 @@ namespace API.Reponsitories
                     //TotalRecords = lstProduct.Count,
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
 
-        public async Task<RestOutput<Product_Brand_Color_Img>> GetProductByAnyPoint(Product_Brand_Color_Img pro, int pageIndex = 0)
+        public async Task<RestOutput<ProductBrandColorImg>> GetProductByAnyPoint(ProductBrandColorImg pro, int pageIndex = 0)
         {
             try
             {
@@ -122,11 +114,11 @@ namespace API.Reponsitories
                 // tại sao Brand (p,b) => b lại là IEnumarable<>
                 //var linqMethodSyntax = this._context.Products.GroupJoin(this._context.Brands, p => p.BrandID, b => b.Id, (p, b) => p.BrandID == b.Id;
 
-                var paging = new Paging { pageFind = pageIndex, pagingOrderBy = "P.Name" };
+                var paging = new Paging { PageFind = pageIndex, PagingOrderBy = "P.Name" };
                 //var rs = await this.SqlQuery(getProSQL, para, new Paging { pageSize = 5, pageFind = 2, pagingOrderBy = "Name", typeSort = "desc" });
                 var rs = await this.SqlQuery(getProSQL, paging, para);
                 var lstProduct = (from rw in rs.AsEnumerable()
-                                  select new Product_Brand_Color_Img()
+                                  select new ProductBrandColorImg()
                                   {
                                       IdPro = Convert.ToUInt32(rw["IdPro"]),
                                       NamePro = rw["NamePro"].ToString(),
@@ -141,16 +133,15 @@ namespace API.Reponsitories
                                       Size = rw["Size"].ToString(),
                                   }).ToList();
                 var totalRecords = this.GetCountRecordAll();
-                return new RestOutput<Product_Brand_Color_Img>
+                return new RestOutput<ProductBrandColorImg>
                 {
                     Data = lstProduct,
                     TotalRecords = totalRecords
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
 
         }

@@ -3,12 +3,12 @@
     public class Paging
     {
         // default 1 page have 5 row 
-        public int pageSize = 5;
-        public int pageFind = 1;
-        public string pagingOrderBy;
+        public int PageSize = 5;
+        public int PageFind = 1;
+        public string PagingOrderBy;
         /// <summary>
         /// "asc" or "desc"
         /// </summary>
-        public string typeSort = "asc";
+        public string TypeSort = "asc";
     }
 }

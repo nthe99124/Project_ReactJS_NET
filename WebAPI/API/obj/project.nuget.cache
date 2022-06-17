@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9gOQmDW10eDP0UshcnIbS9RBDlCXKFieI9lpNT7yWSYY1Qx8nq0jMigqttv1pisjpooTslhIgNo1JcQ5lFEc1A==",
+  "dgSpecHash": "r9TQ1c1dTUUYJ9adEZ32h+XAPJGqnyWQ8n+9n0IeRgy4rIxDNIyvRKgd21RdJGyb1C2ctKanGrBTpt9l/a5M2Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\nthe9\\Desktop\\Project_Angular_NET\\WebAPI\\API\\API.csproj",
+  "projectFilePath": "C:\\Users\\nthe9\\Project_ReactJS_NET\\WebAPI\\API\\API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\nthe9\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\nthe9\\.nuget\\packages\\microsoft.aspnet.webapi.client\\5.2.7\\microsoft.aspnet.webapi.client.5.2.7.nupkg.sha512",

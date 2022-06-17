@@ -1,13 +1,8 @@
-﻿using API.Common;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
-using Model.Common;
 using Model.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -22,7 +17,7 @@ namespace API.Controllers
     public class LoginController : ControllerBase
     {
         private readonly MyDbContext _context;
-        private IConfiguration _config;
+        private readonly IConfiguration _config;
         public LoginController(MyDbContext context, IConfiguration config)
         {
             _context = context;

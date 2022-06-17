@@ -1,5 +1,4 @@
 ﻿using Model.Common;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -17,7 +16,7 @@ namespace Model.BaseEntity
         [ForeignKey("CustomerId")]
         public long CustomerId { get; set; }
         public User User { get; set; }
-        public int QuantityPurschased { get; set; }
+        public int QuantityPurchased { get; set; }
 
     }
 }

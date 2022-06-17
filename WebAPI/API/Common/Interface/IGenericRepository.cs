@@ -2,13 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlTypes;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace API.Common.Interface
 {
-    public interface IGenericReponsitory<T> where T : class
+    public interface IGenericRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
         int GetCountRecordAll();

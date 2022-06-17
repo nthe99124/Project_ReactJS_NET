@@ -14,7 +14,7 @@ namespace Model.BaseEntity
         [Required]
         public string Name { get; set; }
         [ForeignKey("BrandID")]
-        public int? BrandID { get; set; }
+        public int? BrandId { get; set; }
         public Brand Brand { get; set; }
         public string Description { get; set; }
         [Column(TypeName = "decimal(18,0)")]

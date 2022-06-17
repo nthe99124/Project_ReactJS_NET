@@ -1,22 +1,13 @@
 ﻿using API.Common;
-using API.Common.Interface;
-using API.Reponsitories;
-using API.Reponsitories.Interface;
+using API.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Model.BaseEntity;
-using Model.ViewModel;
 using Model.ViewModel.Product;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Threading.Tasks;
-using System.Xml.Linq;
-using static Model.Common.DataType;
 
 namespace API.Controllers
 {
@@ -25,19 +16,20 @@ namespace API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly UnitOfWork _unitOfWork;
-        private readonly IProductRepository _ProductRepository;
-        private readonly IProductColorRepository _ProductColorRepository;
-        private readonly IProductImageRepository _ProductImageRepository;
-        private readonly IImageRepository _ImageRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly IProductColorRepository _productColorRepository;
+        public readonly IProductImageRepository _productImageRepository;
+        private readonly IImageRepository _imageRepository;
 
-        public ProductController(IProductRepository ProductRepository, IImageRepository ImageRepository, IProductColorRepository ProductColorRepository, IProductImageRepository ProductImageRepository, UnitOfWork unitOfWork)
+        public ProductController(IProductRepository productRepository, IImageRepository imageRepository, IProductColorRepository productColorRepository, IProductImageRepository productImageRepository, UnitOfWork unitOfWork)
         {
-            _ProductRepository = ProductRepository;
-            _ProductColorRepository = ProductColorRepository;
-            _ProductImageRepository = ProductImageRepository;
-            _ImageRepository = ImageRepository;
+            _productRepository = productRepository;
+            _productColorRepository = productColorRepository;
+            _productImageRepository = productImageRepository;
+            _imageRepository = imageRepository;
             _unitOfWork = unitOfWork;
         }
+
         [HttpGet("GetAllProduct")]
         [Authorize]
         // get loại đơn giảm từ URL : [FromUri], get loại phức tạp Body : [FromBody]
@@ -45,31 +37,27 @@ namespace API.Controllers
         {
             try
             {
-                var Respon = await _ProductRepository.GetAllProductRepository(pageIndex);
-                if (Respon != null)
+                var rs = await _productRepository.GetAllProductRepository(pageIndex);
+                if (rs != null)
                 {
-                    Respon.Success = true;
-                    Respon.Message = "Success";
+                    rs.Success = true;
+                    rs.Message = "Success";
                 }
-                else
-                {
-                    Respon.Success = false;
-                    Respon.Message = "Null";
-                }
-                return Ok(Respon);
+                return Ok(rs);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
         }
+
         [HttpGet("GetProductByAnyPoint")]
         [Authorize]
-        public async Task<IActionResult> GetProductByAnyPoint(Product_Brand_Color_Img pro, int pageIndex = 0)
+        public async Task<IActionResult> GetProductByAnyPoint(ProductBrandColorImg pro, int pageIndex = 0)
         {
             try
             {
-                var Respon = await _ProductRepository.GetProductByAnyPoint(pro, pageIndex);
+                var Respon = await _productRepository.GetProductByAnyPoint(pro, pageIndex);
                 if (Respon != null)
                 {
                     Respon.Success = true;
@@ -95,14 +83,13 @@ namespace API.Controllers
             try
             {
                 var ProductColor = new List<ProductColor>();
-                if (pro.ColorID != null)
+                if (pro.ColorId != null)
                 {
-
-                    for (int i = 0; i < pro.ColorID.Count; i++)
+                    foreach (var t in pro.ColorId)
                     {
                         ProductColor.Add(new ProductColor
                         {
-                            ColorID = pro.ColorID[i],
+                            ColorId = t,
                             CreatedBy = 1,
                             CreatedOn = DateTime.Now,
                             UpdatedBy = 1,
@@ -111,13 +98,12 @@ namespace API.Controllers
                     }
                 }
 
-                var ProductImage = new List<ProductImage>();
+                var productImages = new List<ProductImage>();
                 if (pro.UrlImage != null)
                 {
-
-                    for (int i = 0; i < pro.UrlImage.Count; i++)
+                    foreach (var t in pro.UrlImage)
                     {
-                        ProductImage.Add(new ProductImage
+                        productImages.Add(new ProductImage
                         {
                             CreatedBy = 1,
                             CreatedOn = DateTime.Now,
@@ -125,7 +111,7 @@ namespace API.Controllers
                             UpdatedOn = DateTime.Now,
                             Image = new Image
                             {
-                                UrlImage = pro.UrlImage[i],
+                                UrlImage = t,
                                 CreatedBy = 1,
                                 CreatedOn = DateTime.Now,
                                 UpdatedBy = 1,
@@ -134,10 +120,10 @@ namespace API.Controllers
                         });
                     }
                 }
-                var Product = new Model.BaseEntity.Product
+                var product = new Model.BaseEntity.Product
                 {
                     Name = pro.NamePro,
-                    BrandID = pro.IdBrand == null ? null : pro.IdBrand,
+                    BrandId = pro.IdBrand,
                     Description = pro.Description,
                     Price = pro.Price,
                     PromotionPrice = pro.PromotionPrice,
@@ -151,33 +137,35 @@ namespace API.Controllers
                     UpdatedBy = 1,
                     UpdatedOn = DateTime.Now,
                     ProductColor = ProductColor,
-                    ProductImage = ProductImage
+                    ProductImage = productImages
                 };
-                await _unitOfWork.ProductResponsitory.CreateAsync(Product);
+                await _unitOfWork.ProductRepository.CreateAsync(product);
                 await _unitOfWork.CommitAsync();
 
-                var rs = new RestOutputCommand<Product_Brand_Color_Img>();
-                rs.Success = true;
-                rs.Message = "Success";
+                var rs = new RestOutputCommand<ProductBrandColorImg>
+                {
+                    Success = true,
+                    Message = "Success"
+                };
                 return Ok(rs);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
+
         [HttpPost("UpdateProduct")]
         [Authorize]
         public async Task<IActionResult> UpdateProduct([FromQuery] int id, [FromBody] ProductInsert pro)
         {
             try
             {
-                var product = await _unitOfWork.ProductResponsitory.FirstOrDefault(x => x.Id == id);
+                var product = await _unitOfWork.ProductRepository.FirstOrDefault(x => x.Id == id);
                 if (product != null)
                 {
                     product.Name = pro.NamePro;
-                    product.BrandID = pro.IdBrand;
+                    product.BrandId = pro.IdBrand;
                     product.Description = pro.Description;
                     product.Price = pro.Price;
                     product.Weight = pro.Weight;
@@ -192,10 +180,10 @@ namespace API.Controllers
                     product.Weight = pro.Weight;
                     product.Size = pro?.Size;
                     // check Update Color
-                    if (pro.ColorID != null)
+                    if (pro.ColorId != null)
                     {
-                        var lstColorNew = _ProductColorRepository.GetProductIdColorID(c => c.ProductID.Equals(id) && pro.ColorID.Contains(c.ColorID));
-                        var lstColorOld = _ProductColorRepository.GetProductIdColorID(c => c.ProductID.Equals(id));
+                        var lstColorNew = _productColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id) && pro.ColorId.Contains(c.ColorId));
+                        var lstColorOld = _productColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id));
                         var lstColorNewClone = new Dictionary<int, long>(lstColorNew);
                         var lstColorOldClone = new Dictionary<int, long>(lstColorOld);
                         var lstColorMax = lstColorOld.Count;
@@ -207,9 +195,9 @@ namespace API.Controllers
                             lstColorMin = lstColorOld.Count;
                         }
 
-                        for (int i = 0; i < lstColorMax; i++)
+                        for (var i = 0; i < lstColorMax; i++)
                         {
-                            for (int j = 0; j < lstColorMin; j++)
+                            for (var j = 0; j < lstColorMin; j++)
                             {
                                 if (lstColorOld.ElementAt(i).Key == lstColorNew.ElementAt(j).Key)
                                 {
@@ -221,34 +209,31 @@ namespace API.Controllers
 
                         if (lstColorOldClone.Count != 0)
                         {
-                            _unitOfWork.ProductColorResponsitory.DeleteRange(c => c.ProductID.Equals(id) && lstColorOldClone.Values.Contains(c.ColorID));
+                            _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(id) && lstColorOldClone.Values.Contains(c.ColorId));
                         }
-                        var ProductColor = new List<ProductColor>();
+                        var productColors = new List<ProductColor>();
                         if (lstColorNewClone.Count != 0)
                         {
-                            for (int i = 0; i < lstColorNewClone.Count; i++)
+                            productColors.AddRange(lstColorNewClone.Select((t, i) => new ProductColor
                             {
-                                ProductColor.Add(new ProductColor
-                                {
-                                    ColorID = lstColorNewClone.ElementAt(i).Key,
-                                    ProductID = lstColorNewClone.ElementAt(i).Value,
-                                    UpdatedBy = 1,
-                                    UpdatedOn = DateTime.Now,
-                                    CreatedBy = 1,
-                                    CreatedOn = DateTime.Now,
-                                });
-                            }
-                            await _unitOfWork.ProductColorResponsitory.CreateRangeAsync(ProductColor);
+                                ColorId = lstColorNewClone.ElementAt(i).Key,
+                                ProductId = lstColorNewClone.ElementAt(i).Value,
+                                UpdatedBy = 1,
+                                UpdatedOn = DateTime.Now,
+                                CreatedBy = 1,
+                                CreatedOn = DateTime.Now,
+                            }));
+                            await _unitOfWork.ProductColorRepository.CreateRangeAsync(productColors);
                         }
                     }
                     else
                     {
-                        _unitOfWork.ProductColorResponsitory.DeleteRange(c => c.ProductID.Equals(id));
+                        _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(id));
                     }
                     if (pro.UrlImage != null)
                     {
-                        var lstImgNew = _ProductImageRepository.GetProductIdImageID(pro.UrlImage);
-                        var lstImgOld = _ProductImageRepository.GetProductIdImageIDByProductID(pro.Id);
+                        var lstImgNew = _productImageRepository.GetProductIdImageId(pro.UrlImage);
+                        var lstImgOld = _productImageRepository.GetProductIdImageIdByProductId(pro.Id);
                         var lstImgNewClone = new Dictionary<long, long>(lstImgNew);
                         var lstImgOldClone = new Dictionary<long, long>(lstImgOld);
                         var lstImgMax = lstImgOld.Count;
@@ -258,9 +243,9 @@ namespace API.Controllers
                             lstImgMax = lstImgNew.Count;
                             lstImgMin = lstImgOld.Count;
                         }
-                        for (int i = 0; i < lstImgMax; i++)
+                        for (var i = 0; i < lstImgMax; i++)
                         {
-                            for (int j = 0; j < lstImgMin; j++)
+                            for (var j = 0; j < lstImgMin; j++)
                             {
                                 if (lstImgOld.ElementAt(i).Key == lstImgNew.ElementAt(j).Key)
                                 {
@@ -271,42 +256,40 @@ namespace API.Controllers
                         }
                         if (lstImgOldClone.Count != 0)
                         {
-                            _unitOfWork.ProductImageResponsitory.DeleteRange(c => c.ProductID.Equals(id) && lstImgOldClone.Values.Contains(c.ImageID));
+                            _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(id) && lstImgOldClone.Values.Contains(c.ImageId));
                         }
-                        var ProductImg = new List<ProductImage>();
+                        var productImages = new List<ProductImage>();
                         if (lstImgNewClone.Count != 0)
                         {
-                            for (int i = 0; i < lstImgNewClone.Count; i++)
+                            productImages.AddRange(lstImgNewClone.Select((t, i) => new ProductImage
                             {
-                                ProductImg.Add(new ProductImage
-                                {
-                                    ImageID = lstImgNewClone.ElementAt(i).Key,
-                                    ProductID = lstImgNewClone.ElementAt(i).Value,
-                                    UpdatedBy = 1,
-                                    UpdatedOn = DateTime.Now,
-                                    CreatedBy = 1,
-                                    CreatedOn = DateTime.Now,
-                                });
-                            }
-                            await _unitOfWork.ProductImageResponsitory.CreateRangeAsync(ProductImg);
+                                ImageId = lstImgNewClone.ElementAt(i).Key,
+                                ProductId = lstImgNewClone.ElementAt(i).Value,
+                                UpdatedBy = 1,
+                                UpdatedOn = DateTime.Now,
+                                CreatedBy = 1,
+                                CreatedOn = DateTime.Now,
+                            }));
+                            await _unitOfWork.ProductImageRepository.CreateRangeAsync(productImages);
                         }
                     }
                     else
                     {
-                        _unitOfWork.ProductImageResponsitory.DeleteRange(c => c.ProductID.Equals(id));
+                        _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(id));
                     }
-                    _unitOfWork.ProductResponsitory.Update(product);
+                    _unitOfWork.ProductRepository.Update(product);
                     await _unitOfWork.CommitAsync();
                 }
-                var rs = new RestOutputCommand<Product_Brand_Color_Img>();
-                rs.Success = true;
-                rs.Message = "Success";
+                var rs = new RestOutputCommand<ProductBrandColorImg>
+                {
+                    Success = true,
+                    Message = "Success"
+                };
                 return Ok(rs);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                throw ex;
             }
         }
     }

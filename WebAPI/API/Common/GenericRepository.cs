@@ -2,10 +2,7 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Model.BaseEntity;
-using Swashbuckle.AspNetCore.SwaggerGen;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -15,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace API.Common
 {
-    public class GenericReponsitory<T> : IGenericReponsitory<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
         protected readonly DbSet<T> _dbset;
         protected readonly MyDbContext _context;
-        public GenericReponsitory(MyDbContext context)
+        public GenericRepository(MyDbContext context)
         {
             _context = context;
             _dbset = _context.Set<T>();
@@ -84,9 +81,9 @@ namespace API.Common
         {
             try
             {
-                if (paging != null) query += " ORDER BY " + paging.pagingOrderBy + " " + paging.typeSort + @" OFFSET " + (paging.pageFind - 1) * paging.pageSize + " ROWS FETCH NEXT " + paging.pageSize + " ROWS ONLY";
-                string connString = _context.iConfig.GetConnectionString("Laptop");
-                SqlConnection conn = new SqlConnection(connString);
+                if (paging != null) query += " ORDER BY " + paging.PagingOrderBy + " " + paging.TypeSort + @" OFFSET " + (paging.PageFind - 1) * paging.PageSize + " ROWS FETCH NEXT " + paging.PageSize + " ROWS ONLY";
+                string connString = _context.Config.GetConnectionString("Laptop");
+                var conn = new SqlConnection(connString);
                 //SqlCommand cmd = new SqlCommand(query, conn);
                 await conn.OpenAsync();
                 // create data adapter
@@ -97,7 +94,7 @@ namespace API.Common
                 {
                     da.SelectCommand.Parameters.AddRange(array.ToArray());
                 }
-                DataTable dataTable = new DataTable();
+                var dataTable = new DataTable();
                 // this will query your database and return the result to your datatable
                 da.Fill(dataTable);
                 await conn.CloseAsync();

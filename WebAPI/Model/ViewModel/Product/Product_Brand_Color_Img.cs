@@ -1,9 +1,9 @@
-﻿using Model.BaseEntity;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Model.BaseEntity;
 
-namespace Model.ViewModel
+namespace Model.ViewModel.Product
 {
-    public class Product_Brand_Color_Img
+    public class ProductBrandColorImg
     {
         public long IdPro { get; set; }
         public string NamePro { get; set; }

@@ -10,22 +10,21 @@ namespace API.Common
         public List<T> Data { get; set; }
         public int PageSize = 5;
         public long TotalRecords { get; set; }
-        private long pageCount;
-
+        private long _pageCount;
         public long PageCount
         {
-            get { return pageCount; }
+            get => _pageCount;
             set
             {
                 if (TotalRecords == 0)
                 {
-                    pageCount = 0;
+                    _pageCount = 0;
                 }
                 else if (TotalRecords / PageSize == Convert.ToInt32(TotalRecords / PageSize))
                 {
-                    pageCount = TotalRecords / PageSize;
+                    _pageCount = TotalRecords / PageSize;
                 }
-                else pageCount = Convert.ToInt32(TotalRecords / PageSize) + 1;
+                else _pageCount = Convert.ToInt32(TotalRecords / PageSize) + 1;
             }
         }
 

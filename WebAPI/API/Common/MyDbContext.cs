@@ -1,39 +1,32 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols;
 using Model.BaseEntity;
-
 
 namespace API.Common
 {
-
     public class MyDbContext : DbContext
     {
         // With lower version we can use "enable-migrations –EnableAutomaticMigration:$true" to create file (Configuration)
         // AutomaticMigrationsEnabled = true; -- only add table or bla bla but that be lost data
         // AutomaticMigrationDataLossAllowed = true; -- 
-        public IConfiguration iConfig;
-        public MyDbContext(DbContextOptions options, IConfiguration _iConfig) : base(options)
+        public IConfiguration Config;
+        public MyDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
         {
-            this.iConfig = _iConfig;
+            Config = configuration;
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             builder.Entity<ProductImage>().HasKey(table => new
             {
-                table.ImageID,
-                table.ProductID
+                ImageID = table.ImageId,
+                ProductID = table.ProductId
             });
             builder.Entity<ProductColor>().HasKey(table => new
             {
-                table.ColorID,
-                table.ProductID
+                ColorID = table.ColorId,
+                ProductID = table.ProductId
             });
         }
-
-
-
-
         public DbSet<Bill> Bills { get; set; }
         public DbSet<BillStatus> BillStatus { get; set; }
         public DbSet<Brand> Brands { get; set; }
@@ -49,7 +42,5 @@ namespace API.Common
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
-
-
     }
 }

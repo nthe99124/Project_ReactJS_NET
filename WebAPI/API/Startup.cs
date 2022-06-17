@@ -1,26 +1,19 @@
 ﻿using API.Common;
 using API.Common.Interface;
-using API.Reponsitories;
-using API.Reponsitories.Interface;
+using API.Repositories;
+using API.Repositories.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Model.BaseEntity;
-using Model.Common;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace API
 {
@@ -48,24 +41,21 @@ namespace API
             services.AddSingleton<IConfiguration>(Configuration);
 
             services.AddControllers();
+
             // các Interface khác cần addTransient
             //AddTransient - Một thể hiện của service sẽ được cung cấp đến mỗi class request nó.
             //AddScoped - Một thể hiện của service sẽ được tạo trên mỗi request.
             //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
-            services.AddTransient<IGenericReponsitory<Product>, GenericReponsitory<Product>>();
-            services.AddTransient<IGenericReponsitory<Image>, GenericReponsitory<Image>>();
-            services.AddTransient<IGenericReponsitory<ProductColor>, GenericReponsitory<ProductColor>>();
-            services.AddTransient<IGenericReponsitory<ProductImage>, GenericReponsitory<ProductImage>>();
+            services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
+            services.AddTransient<IGenericRepository<Image>, GenericRepository<Image>>();
+            services.AddTransient<IGenericRepository<ProductColor>, GenericRepository<ProductColor>>();
+            services.AddTransient<IGenericRepository<ProductImage>, GenericRepository<ProductImage>>();
             services.AddTransient<UnitOfWork>();
 
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
             services.AddTransient<IProductColorRepository, ProductColorRepository>();
             services.AddTransient<IProductImageRepository, ProductImageRepository>();
-
-
-
-
 
             #region config Swagger - Use Bearer
             services.AddSwaggerGen(c =>
@@ -94,7 +84,6 @@ namespace API
                 });
             });
             #endregion
-
 
             #region config token
             var secretKey = Configuration["AppSettings:SecretKey"];
@@ -142,11 +131,7 @@ namespace API
 
             //need for authen and author
             app.UseAuthentication();
-
             app.UseAuthorization();
-
-            // postman lỗi, swagger vẫn được
-            //app.UseMiddleware<FirstMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

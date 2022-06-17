@@ -1,5 +1,4 @@
 ﻿using Model.Common;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,10 +11,10 @@ namespace Model.BaseEntity
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
         [ForeignKey("NewsID")]
-        public long NewsID { get; set; }
+        public long NewsId { get; set; }
         public virtual News News { get; set; }
         [ForeignKey("ImageID")]
-        public long ImageID { get; set; }
+        public long ImageId { get; set; }
         public virtual Image Image { get; set; }
     }
 }

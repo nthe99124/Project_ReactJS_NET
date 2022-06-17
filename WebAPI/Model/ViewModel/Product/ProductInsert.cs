@@ -1,9 +1,5 @@
 ﻿using Model.Common;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Model.ViewModel.Product
 {
@@ -21,7 +17,7 @@ namespace Model.ViewModel.Product
         public decimal Warranty { get; set; }
         public decimal Weight { get; set; }
         public string Size { get; set; }
-        public List<int> ColorID { get; set; }
+        public List<int> ColorId { get; set; }
         public List<string> UrlImage { get; set; }
     }
 }

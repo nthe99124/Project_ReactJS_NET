@@ -168,7 +168,7 @@ namespace API.Migrations
                     b.Property<long>("ProductId")
                         .HasColumnType("bigint");
 
-                    b.Property<int>("QuantityPurschased")
+                    b.Property<int>("QuantityPurchased")
                         .HasColumnType("int");
 
                     b.Property<long>("UpdatedBy")

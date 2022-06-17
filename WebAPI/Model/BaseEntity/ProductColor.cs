@@ -8,10 +8,10 @@ namespace Model.BaseEntity
     public class ProductColor : Entity
     {
         [Key, ForeignKey("ProductID")]
-        public long ProductID { get; set; }
+        public long ProductId { get; set; }
         public virtual Product Product { get; set; }
         [Key, ForeignKey("ColorID")]
-        public int ColorID { get; set; }
+        public int ColorId { get; set; }
         public virtual Color Color { get; set; }
     }
 }

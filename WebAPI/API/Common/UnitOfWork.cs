@@ -1,37 +1,26 @@
 ﻿using API.Common.Interface;
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Model.BaseEntity;
-using Model.Common;
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Dynamic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace API.Common
 {
     public class UnitOfWork : IUnitOfWork
     {
         readonly MyDbContext _context;
-        public IGenericReponsitory<Product> ProductResponsitory { get; }
-        public IGenericReponsitory<ProductColor> ProductColorResponsitory { get; }
-        public IGenericReponsitory<Image> ImageResponsitory { get; }
-        public IGenericReponsitory<ProductImage> ProductImageResponsitory { get; }
-        public UnitOfWork(MyDbContext context, IGenericReponsitory<Product> Product, IGenericReponsitory<ProductColor> ProductColor, IGenericReponsitory<Image> Image, IGenericReponsitory<ProductImage> ProductImage)
+        public IGenericRepository<Product> ProductRepository { get; }
+        public IGenericRepository<ProductColor> ProductColorRepository { get; }
+        public IGenericRepository<Image> ImageRepository { get; }
+        public IGenericRepository<ProductImage> ProductImageRepository { get; }
+        public UnitOfWork(MyDbContext context, IGenericRepository<Product> product, IGenericRepository<ProductColor> productColor, IGenericRepository<Image> image, IGenericRepository<ProductImage> productImage)
         {
             _context = context;
-            ProductResponsitory = Product;
-            ProductColorResponsitory = ProductColor;
-            ImageResponsitory = Image;
-            ProductImageResponsitory = ProductImage;
+            ProductRepository = product;
+            ProductColorRepository = productColor;
+            ImageRepository = image;
+            ProductImageRepository = productImage;
         }
 
         public async Task CommitAsync()
@@ -60,9 +49,9 @@ namespace API.Common
                     _context.SaveChanges();
                     scope.Complete();
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    throw;
+                    throw ex;
                 }
             }
         }
