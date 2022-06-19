@@ -8,6 +8,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Common.Interface;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace API.Controllers
 {
@@ -15,19 +18,23 @@ namespace API.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
+        private readonly ILogger<ProductController> _logger;
         private readonly UnitOfWork _unitOfWork;
         private readonly IProductRepository _productRepository;
         private readonly IProductColorRepository _productColorRepository;
-        public readonly IProductImageRepository _productImageRepository;
-        private readonly IImageRepository _imageRepository;
+        private readonly IProductImageRepository _productImageRepository;
 
-        public ProductController(IProductRepository productRepository, IImageRepository imageRepository, IProductColorRepository productColorRepository, IProductImageRepository productImageRepository, UnitOfWork unitOfWork)
+        public ProductController(IProductRepository productRepository,
+            IProductColorRepository productColorRepository,
+            IProductImageRepository productImageRepository,
+            UnitOfWork unitOfWork,
+            ILogger<ProductController> logger)
         {
             _productRepository = productRepository;
             _productColorRepository = productColorRepository;
             _productImageRepository = productImageRepository;
-            _imageRepository = imageRepository;
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         [HttpGet("GetAllProductPaging")]
@@ -37,11 +44,12 @@ namespace API.Controllers
             try
             {
                 var rs = _productRepository.GetAllProductPaging(pageIndex);
+                _logger.LogInformation("GetAllProductPaging:start ");
                 return Ok(rs);
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "GetAllProductPaging: " + ex);
+                _logger.LogError(ex, "GetAllProductPaging:");
                 return BadRequest();
             }
         }
@@ -57,7 +65,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "GetProductByAnyPoint: " + ex);
+                _logger.LogError(ex, "GetProductByAnyPoint: ");
                 return BadRequest();
             }
         }
@@ -135,7 +143,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "InsertProduct: " + ex);
+                _logger.LogError(ex, "InsertProduct: ");
                 return BadRequest();
             }
         }
@@ -274,7 +282,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "UpdateProduct: " + ex);
+                _logger.LogError(ex, "UpdateProduct: ");
                 return BadRequest();
             }
         }

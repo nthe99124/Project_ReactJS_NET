@@ -1,6 +1,8 @@
 ﻿using API.Common.Interface;
+using API.Controllers;
 using API.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Model.BaseEntity;
 using System;
 using System.Threading.Tasks;
@@ -10,6 +12,7 @@ namespace API.Common
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private readonly ILogger<UnitOfWork> _logger;
         readonly MyDbContext _context;
         public IGenericRepository<Bill> BillRepository { get; }
         public IGenericRepository<BillStatus> BillStatusRepository { get; }
@@ -25,7 +28,10 @@ namespace API.Common
         public IGenericRepository<ProductColor> ProductColorRepository { get; }
         public IGenericRepository<Image> ImageRepository { get; }
         public IGenericRepository<ProductImage> ProductImageRepository { get; }
-        public UnitOfWork(MyDbContext context,
+        public IGenericRepository<UserRole> UserRoleRepository { get; }
+        public UnitOfWork(
+            ILogger<UnitOfWork> logger,
+            MyDbContext context,
             IGenericRepository<Bill> bill,
             IGenericRepository<BillStatus> billStatus,
             IGenericRepository<Brand> brand,
@@ -33,13 +39,16 @@ namespace API.Common
             IGenericRepository<Cart> cart,
             IGenericRepository<Color> color,
             IGenericRepository<FavoriteList> favoriteList,
+            IGenericRepository<News> news,
             IGenericRepository<NewsImage> newsImage,
             IGenericRepository<Role> role,
             IGenericRepository<User> user,
             IGenericRepository<Product> product,
             IGenericRepository<ProductColor> productColor,
-            IGenericRepository<Image> image)
+            IGenericRepository<Image> image,
+            IGenericRepository<UserRole> userRoleRepository)
         {
+            _logger = logger;
             _context = context;
             BillRepository = bill;
             BillStatusRepository = billStatus;
@@ -53,6 +62,9 @@ namespace API.Common
             ProductImageRepository = productImage;
             ProductRepository = product;
             ProductColorRepository = productColor;
+            ImageRepository = image;
+            NewsRepository = news;
+            UserRoleRepository = userRoleRepository;
         }
 
         public async Task CommitAsync()
@@ -83,7 +95,7 @@ namespace API.Common
                 }
                 catch (Exception ex)
                 {
-                    Logger.LogError(ex.ToString());
+                    _logger.LogError(ex.ToString());
                 }
             }
         }

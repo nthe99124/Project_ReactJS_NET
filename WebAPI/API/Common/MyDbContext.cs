@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Model.BaseEntity;
 
 namespace API.Common
@@ -10,9 +11,15 @@ namespace API.Common
         // AutomaticMigrationsEnabled = true; -- only add table or bla bla but that be lost data
         // AutomaticMigrationDataLossAllowed = true; -- 
         public IConfiguration Config;
-        public MyDbContext(DbContextOptions options, IConfiguration configuration) : base(options)
+        private readonly ILoggerFactory _loggerFactory;
+        public MyDbContext(DbContextOptions options, IConfiguration configuration, ILoggerFactory loggerFactory) : base(options)
         {
             Config = configuration;
+            _loggerFactory = loggerFactory;
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

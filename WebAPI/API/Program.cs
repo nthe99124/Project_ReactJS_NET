@@ -2,6 +2,7 @@ using System;
 using API.Common;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 
 namespace API
 {
@@ -11,12 +12,20 @@ namespace API
         {
             try
             {
-                Logger.LogInformation("Starting host");
+                Log.Logger = new LoggerConfiguration()
+                    .Enrich.FromLogContext()
+                    .WriteTo.File("serilog//log.txt", rollingInterval: RollingInterval.Day)
+                    .WriteTo.Console()
+                    .CreateLogger();
                 CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "Host Error");
+                Log.Error(ex, "Host Error");
+            }
+            finally
+            {
+                Log.CloseAndFlush();
             }
         }
 
@@ -25,6 +34,7 @@ namespace API
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+                .UseSerilog();
     }
 }

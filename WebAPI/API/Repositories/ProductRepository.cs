@@ -1,6 +1,7 @@
 ﻿using API.Common;
 using API.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Model.BaseEntity;
 using Model.ViewModel.Product;
 using System;
@@ -11,7 +12,12 @@ namespace API.Repositories
 {
     public class ProductRepository : GenericRepository<Product>, IProductRepository
     {
-        public ProductRepository(MyDbContext context) : base(context) { }
+        private readonly ILogger<ProductRepository> _logger;
+
+        public ProductRepository(MyDbContext context, ILogger<ProductRepository> logger) : base(context)
+        {
+            _logger = logger;
+        }
 
         public RestOutput<ProductViewModel> GetAllProductPaging(int pageIndex = 1)
         {
@@ -38,7 +44,7 @@ namespace API.Repositories
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.ToString());
+                _logger.LogError(ex.ToString());
                 return null;
             }
         }
@@ -72,7 +78,7 @@ namespace API.Repositories
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex.ToString());
+                _logger.LogError(ex.ToString());
                 return null;
             }
         }

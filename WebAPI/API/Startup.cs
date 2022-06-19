@@ -50,12 +50,35 @@ namespace API
             services.AddTransient<IGenericRepository<Image>, GenericRepository<Image>>();
             services.AddTransient<IGenericRepository<ProductColor>, GenericRepository<ProductColor>>();
             services.AddTransient<IGenericRepository<ProductImage>, GenericRepository<ProductImage>>();
+            services.AddTransient<IGenericRepository<Bill>, GenericRepository<Bill>>();
+            services.AddTransient<IGenericRepository<BillStatus>, GenericRepository<BillStatus>>();
+            services.AddTransient<IGenericRepository<Brand>, GenericRepository<Brand>>();
+            services.AddTransient<IGenericRepository<Cart>, GenericRepository<Cart>>();
+            services.AddTransient<IGenericRepository<Color>, GenericRepository<Color>>();
+            services.AddTransient<IGenericRepository<FavoriteList>, GenericRepository<FavoriteList>>();
+            services.AddTransient<IGenericRepository<NewsImage>, GenericRepository<NewsImage>>();
+            services.AddTransient<IGenericRepository<News>, GenericRepository<News>>();
+            services.AddTransient<IGenericRepository<Role>, GenericRepository<Role>>();
+            services.AddTransient<IGenericRepository<User>, GenericRepository<User>>();
+            services.AddTransient<IGenericRepository<UserRole>, GenericRepository<UserRole>>();
+
             services.AddTransient<UnitOfWork>();
 
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
             services.AddTransient<IProductColorRepository, ProductColorRepository>();
             services.AddTransient<IProductImageRepository, ProductImageRepository>();
+            services.AddTransient<IBillRepository, BillRepository>();
+            services.AddTransient<IBillStatusRepository, BillStatusRepository>();
+            services.AddTransient<IBrandRepository, BrandRepository>();
+            services.AddTransient<ICartRepository, CartRepository>();
+            services.AddTransient<IColorRepository, ColorRepository>();
+            services.AddTransient<IFavoriteListRepository, FavoriteListRepository>();
+            services.AddTransient<INewsImageRepository, NewsImageRepository>();
+            services.AddTransient<INewsRepository, NewsRepository>();
+            services.AddTransient<IRoleRepository, RoleRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
 
             #region config Swagger - Use Bearer
             services.AddSwaggerGen(c =>

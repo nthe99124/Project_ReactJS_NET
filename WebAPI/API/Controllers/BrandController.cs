@@ -5,6 +5,7 @@ using API.Common;
 using API.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using Model.BaseEntity;
 
 namespace API.Controllers
@@ -13,11 +14,13 @@ namespace API.Controllers
     [ApiController]
     public class BrandController : ControllerBase
     {
+        private readonly ILogger<BrandController> _logger;
         private readonly UnitOfWork _unitOfWork;
 
-        public BrandController(UnitOfWork unitOfWork)
+        public BrandController(UnitOfWork unitOfWork, ILogger<BrandController> logger)
         {
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         [HttpGet("GetBrandPaging")]
@@ -31,7 +34,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "GetBrandPaging: " + ex);
+                _logger.LogError(ex, "GetBrandPaging: ");
                 return BadRequest();
             }
         }
@@ -48,7 +51,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "InsertBrand: " + ex);
+                _logger.LogError(ex, "InsertBrand: ");
                 return BadRequest();
             }
         }
@@ -65,7 +68,7 @@ namespace API.Controllers
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex, "UpdateBrand: " + ex);
+                _logger.LogError(ex, "UpdateBrand: ");
                 return BadRequest();
             }
         }
