@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,42 +15,52 @@ namespace API.Common
 {
     public class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        protected readonly DbSet<T> _dbset;
+        private readonly DbSet<T> _dbset;
         protected readonly MyDbContext _context;
         public GenericRepository(MyDbContext context)
         {
             _context = context;
             _dbset = _context.Set<T>();
         }
+
         public IEnumerable<T> GetAll()
         {
-            return _dbset.AsEnumerable<T>();
+            var result = _dbset.AsEnumerable<T>();
+            return result;
         }
-        public int GetCountRecordAll()
+
+        public (int count, IQueryable<T> data) GetAllPaging(Paging paging)
         {
-            return _dbset.Count();
+            var result = _dbset.AsQueryable();
+            var count = result.Count();
+            if (paging != null)
+            {
+                result = result.Skip((paging.PageFind - 1) * paging.PageSize)
+                    .Take(paging.PageSize);
+            }
+            return (count, result);
         }
-        public long GetLastID<TTable>(Func<TTable, dynamic> columnSelector) where TTable : class
-        {
-            return _context.Set<TTable>().Max(columnSelector);
-        }
+
         public async Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate)
         {
-            // vì đây không phải task, nên gọi Task.Run => khởi tạo Task và thực Start Task
             return await Task.Run(() => _dbset.Where(predicate).AsEnumerable<T>());
         }
+
         public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
             return await Task.Run(() => _dbset.FirstOrDefault(predicate));
         }
+
         public void Create(T entity)
         {
             _dbset.Add(entity);
         }
+
         public async Task CreateAsync(T entity)
         {
             await _dbset.AddAsync(entity);
         }
+
         public async Task CreateRangeAsync(List<T> entity)
         {
             await _dbset.AddRangeAsync(entity);
@@ -57,31 +68,80 @@ namespace API.Common
 
         public void Update(T entity)
         {
-            //_dbset.Attach(entity);
-            //DbContext.Entry(entity).State = EntityState.Modified;
+            //Dbset.Attach(lstEntity);
+            //DbContext.Entry(lstEntity).State = EntityState.Modified;
             //_entities.Set<Entity>();
             _context.Entry(entity).State = EntityState.Modified;
         }
+
+        public void UpdateRange(Expression<Func<T, bool>> predicate)
+        {
+            //Dbset.Attach(lstEntity);
+            //DbContext.Entry(lstEntity).State = EntityState.Modified;
+            //_entities.Set<Entity>();
+            var entity = _dbset.Where(predicate);
+            _dbset.UpdateRange(entity);
+        }
+
         public void Delete(T entity)
         {
             _dbset.Remove(entity);
         }
-        public void Delete(dynamic id)
+
+        public void DeleteById(dynamic id)
         {
             var entity = _dbset.Find(id);
             _dbset.Remove(entity);
         }
+
         public void DeleteRange(Expression<Func<T, bool>> predicate)
         {
             var entity = _dbset.Where(predicate);
             _dbset.RemoveRange(entity);
         }
 
+        public List<TTable> PagingResult<TTable>(List<TTable> lstEntity, Paging paging = null) where TTable : class
+        {
+            try
+            {
+                if (paging != null)
+                {
+                    return lstEntity.Skip((paging.PageFind - 1) * paging.PageSize)
+                                    .Take(paging.PageSize)
+                                    .ToList();
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+
+        public List<TTable> FindByAnyPoint<TTable>(List<TTable> lstEntity, TTable parameter) where TTable : class
+        {
+            var properties = parameter.GetType().GetProperties();
+            foreach (var item in properties)
+            {
+                if (item?.GetValue(parameter) != null)
+                {
+                    lstEntity = lstEntity.Where(e => e.GetType().GetProperty(item.Name)!.GetValue(e)!.Equals(item?.GetValue(parameter))).ToList();
+                }
+            }
+            return lstEntity;
+        }
+
+        // for using ADO
         public async Task<DataTable> SqlQuery(string query, Paging paging = null, List<SqlParameter> array = null)
         {
             try
             {
-                if (paging != null) query += " ORDER BY " + paging.PagingOrderBy + " " + paging.TypeSort + @" OFFSET " + (paging.PageFind - 1) * paging.PageSize + " ROWS FETCH NEXT " + paging.PageSize + " ROWS ONLY";
+                //if (paging != null) query += " ORDER BY " + paging.PagingOrderBy + " " + paging.TypeSort + @" OFFSET " + (paging.PageFind - 1) * paging.PageSize + " ROWS FETCH NEXT " + paging.PageSize + " ROWS ONLY";
+                if (paging != null) query += @" OFFSET " + (paging.PageFind - 1) * paging.PageSize + " ROWS FETCH NEXT " + paging.PageSize + " ROWS ONLY";
                 string connString = _context.Config.GetConnectionString("Laptop");
                 var conn = new SqlConnection(connString);
                 //SqlCommand cmd = new SqlCommand(query, conn);
@@ -110,7 +170,7 @@ namespace API.Common
             }
         }
 
-        public IEnumerable<T> ExecuteStoredProcedureObject<T>(string nameProcedure, SqlParameter[] array) where T : class, new()
+        public IEnumerable<T> ExecuteStoredProcedureObject(string nameProcedure, SqlParameter[] array)
         {
             try
             {
@@ -144,30 +204,5 @@ namespace API.Common
                 throw;
             }
         }
-        //public virtual dynamic PushParameterToArray<TTable>(TTable entity, bool QueryString) where TTable : class
-        //{
-        //    var para = new List<SqlParameter>();
-        //    var query = new List<string>();
-        //    var properties = entity.GetType().GetProperties();
-        //    //var properties = typeof(TTable).GetProperties();
-        //    foreach (var item in properties)
-        //    {
-        //        // làm sao để phân biệt các biến kiểu Int, long khi không cho nó null, không truyền nó sẽ mặc định là 0
-        //        // => làm sao phân biệt nó là cần tìm 0 hay là không cần tìm với nó???
-        //        // hay phải tạo riêng 1 view model cho phép nó null
-        //        // tạm thời nếu là 0 thì bỏ qua
-        //        if (item?.GetValue(entity) != null || (item.PropertyType.Name == "Int64" && Convert.ToInt32(item?.GetValue(entity)) != 0))
-        //        {
-        //            para.Add(new SqlParameter("@" + item.Name, item?.GetValue(entity)));
-        //            query.Add(" AND " + item.Name + " = @" + item.Name);
-        //        }
-        //    }
-        //    if (QueryString)
-        //    {
-        //        return query;
-        //    }
-        //    else return para;
-        //}
-
     }
 }

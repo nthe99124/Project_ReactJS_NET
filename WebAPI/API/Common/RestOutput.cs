@@ -5,11 +5,28 @@ namespace API.Common
 {
     public class RestOutput<T>
     {
-        public bool Success { get; set; }
         public string Message { get; set; }
         public List<T> Data { get; set; }
-        public int PageSize = 5;
+        public int PageSize { get; set; } = 5;
         public long TotalRecords { get; set; }
+        public RestOutput(List<T> data)
+        {
+            Data = data;
+        }
+
+        public RestOutput(List<T> data, long totalRecords)
+        {
+            Data = data;
+            TotalRecords = totalRecords;
+        }
+
+        public RestOutput(List<T> data, long pageCount, int pageSize)
+        {
+            Data = data;
+            PageCount = pageCount;
+            PageSize = pageSize;
+        }
+
         private long _pageCount;
         public long PageCount
         {
@@ -27,6 +44,5 @@ namespace API.Common
                 else _pageCount = Convert.ToInt32(TotalRecords / PageSize) + 1;
             }
         }
-
     }
 }

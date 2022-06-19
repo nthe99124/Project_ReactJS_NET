@@ -30,64 +30,50 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("GetAllProduct")]
+        [HttpGet("GetAllProductPaging")]
         [Authorize]
-        // get loại đơn giảm từ URL : [FromUri], get loại phức tạp Body : [FromBody]
-        public async Task<IActionResult> GetAllProduct([FromQuery] int pageIndex = 1)
+        public async Task<IActionResult> GetAllProductPaging([FromQuery] int pageIndex = 1)
         {
             try
             {
-                var rs = await _productRepository.GetAllProductRepository(pageIndex);
-                if (rs != null)
-                {
-                    rs.Success = true;
-                    rs.Message = "Success";
-                }
+                var rs = _productRepository.GetAllProductPaging(pageIndex);
                 return Ok(rs);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Logger.LogError(ex, "GetAllProductPaging: " + ex);
+                return BadRequest();
             }
         }
 
         [HttpGet("GetProductByAnyPoint")]
         [Authorize]
-        public async Task<IActionResult> GetProductByAnyPoint(ProductBrandColorImg pro, int pageIndex = 0)
+        public async Task<IActionResult> GetProductByAnyPoint(ProductViewModel pro, int pageIndex = 1)
         {
             try
             {
-                var Respon = await _productRepository.GetProductByAnyPoint(pro, pageIndex);
-                if (Respon != null)
-                {
-                    Respon.Success = true;
-                    Respon.Message = "Success";
-                }
-                else
-                {
-                    Respon.Success = false;
-                    Respon.Message = "Null";
-                }
-                return Ok(Respon);
+                var rs = await _productRepository.GetProductByAnyPoint(pro, pageIndex);
+                return Ok(rs);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Logger.LogError(ex, "GetProductByAnyPoint: " + ex);
+                return BadRequest();
             }
         }
 
         [HttpPost("InsertProduct")]
         [Authorize]
-        public async Task<IActionResult> InsertProduct([FromBody] ProductInsert pro)
+        public async Task<IActionResult> InsertProduct([FromBody] ProductViewModel pro)
         {
             try
             {
-                var ProductColor = new List<ProductColor>();
+                var productColor = new List<ProductColor>();
                 if (pro.ColorId != null)
                 {
                     foreach (var t in pro.ColorId)
                     {
-                        ProductColor.Add(new ProductColor
+                        productColor.Add(new ProductColor
                         {
                             ColorId = t,
                             CreatedBy = 1,
@@ -120,44 +106,43 @@ namespace API.Controllers
                         });
                     }
                 }
-                var product = new Model.BaseEntity.Product
+
+                var product = new Product
                 {
                     Name = pro.NamePro,
                     BrandId = pro.IdBrand,
                     Description = pro.Description,
-                    Price = pro.Price,
-                    PromotionPrice = pro.PromotionPrice,
+                    Price = pro.Price ?? 0,
+                    PromotionPrice = pro.PromotionPrice ?? 0,
                     Option = pro.Option,
                     Type = pro.Type,
-                    Warranty = pro.Warranty,
-                    Weight = pro.Weight,
+                    Warranty = pro.Warranty ?? 0,
+                    Weight = pro.Weight ?? 0,
                     Size = pro.Size,
                     CreatedBy = 1,
                     CreatedOn = DateTime.Now,
                     UpdatedBy = 1,
                     UpdatedOn = DateTime.Now,
-                    ProductColor = ProductColor,
+                    ProductColor = productColor,
                     ProductImage = productImages
                 };
+
                 await _unitOfWork.ProductRepository.CreateAsync(product);
                 await _unitOfWork.CommitAsync();
 
-                var rs = new RestOutputCommand<ProductBrandColorImg>
-                {
-                    Success = true,
-                    Message = "Success"
-                };
+                var rs = new RestOutputCommand<ProductViewModel>();
                 return Ok(rs);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Logger.LogError(ex, "InsertProduct: " + ex);
+                return BadRequest();
             }
         }
 
         [HttpPost("UpdateProduct")]
         [Authorize]
-        public async Task<IActionResult> UpdateProduct([FromQuery] int id, [FromBody] ProductInsert pro)
+        public async Task<IActionResult> UpdateProduct([FromQuery] int id, [FromBody] ProductViewModel pro)
         {
             try
             {
@@ -167,18 +152,19 @@ namespace API.Controllers
                     product.Name = pro.NamePro;
                     product.BrandId = pro.IdBrand;
                     product.Description = pro.Description;
-                    product.Price = pro.Price;
-                    product.Weight = pro.Weight;
+                    product.Price = pro.Price ?? 0;
+                    product.Weight = pro.Weight ?? 0;
                     product.Size = pro.Size;
                     product.CreatedBy = pro.CreatedBy;
                     product.CreatedOn = pro.CreatedOn;
                     product.UpdatedBy = pro.UpdatedBy;
                     product.UpdatedOn = pro.UpdatedOn;
-                    product.PromotionPrice = pro.PromotionPrice;
+                    product.PromotionPrice = pro.PromotionPrice ?? 0;
                     product.Type = pro.Type;
-                    product.Warranty = pro.Warranty;
-                    product.Weight = pro.Weight;
-                    product.Size = pro?.Size;
+                    product.Warranty = pro.Warranty ?? 0;
+                    product.Weight = pro.Weight ?? 0;
+                    product.Size = pro.Size;
+
                     // check Update Color
                     if (pro.ColorId != null)
                     {
@@ -230,10 +216,11 @@ namespace API.Controllers
                     {
                         _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(id));
                     }
+
                     if (pro.UrlImage != null)
                     {
                         var lstImgNew = _productImageRepository.GetProductIdImageId(pro.UrlImage);
-                        var lstImgOld = _productImageRepository.GetProductIdImageIdByProductId(pro.Id);
+                        var lstImgOld = _productImageRepository.GetProductIdImageIdByProductId(id);
                         var lstImgNewClone = new Dictionary<long, long>(lstImgNew);
                         var lstImgOldClone = new Dictionary<long, long>(lstImgOld);
                         var lstImgMax = lstImgOld.Count;
@@ -277,19 +264,18 @@ namespace API.Controllers
                     {
                         _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(id));
                     }
+
                     _unitOfWork.ProductRepository.Update(product);
                     await _unitOfWork.CommitAsync();
                 }
-                var rs = new RestOutputCommand<ProductBrandColorImg>
-                {
-                    Success = true,
-                    Message = "Success"
-                };
+
+                var rs = new RestOutputCommand<ProductViewModel>();
                 return Ok(rs);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Logger.LogError(ex, "UpdateProduct: " + ex);
+                return BadRequest();
             }
         }
     }

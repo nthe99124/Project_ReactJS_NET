@@ -129,7 +129,7 @@ namespace API
             app.UseHttpsRedirection();
             app.UseRouting();
 
-            //need for authen and author
+            //need for authentication and author
             app.UseAuthentication();
             app.UseAuthorization();
 

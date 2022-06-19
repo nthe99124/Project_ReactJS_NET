@@ -8,8 +8,7 @@ namespace API.Repositories.Interface
 {
     public interface IProductRepository : IGenericRepository<Product>
     {
-        Task<RestOutput<ProductBrandColorImg>> GetAllProductRepository(int pageIndex);
-        Task<RestOutput<ProductBrandColorImg>> GetProductByAnyPoint(ProductBrandColorImg pro, int pageIndex = 0);
-
+        RestOutput<ProductViewModel> GetAllProductPaging(int pageIndex = 1);
+        Task<RestOutput<ProductViewModel>> GetProductByAnyPoint(ProductViewModel pro, int pageIndex = 1);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using API.Common.Interface;
+using API.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Model.BaseEntity;
 using System;
@@ -10,17 +11,48 @@ namespace API.Common
     public class UnitOfWork : IUnitOfWork
     {
         readonly MyDbContext _context;
+        public IGenericRepository<Bill> BillRepository { get; }
+        public IGenericRepository<BillStatus> BillStatusRepository { get; }
+        public IGenericRepository<Brand> BrandRepository { get; }
+        public IGenericRepository<Cart> CartRepository { get; }
+        public IGenericRepository<Color> ColorRepository { get; }
+        public IGenericRepository<FavoriteList> FavoriteListRepository { get; }
+        public IGenericRepository<NewsImage> NewsImageRepository { get; }
+        public IGenericRepository<News> NewsRepository { get; }
+        public IGenericRepository<Role> RoleRepository { get; }
+        public IGenericRepository<User> UserRepository { get; }
         public IGenericRepository<Product> ProductRepository { get; }
         public IGenericRepository<ProductColor> ProductColorRepository { get; }
         public IGenericRepository<Image> ImageRepository { get; }
         public IGenericRepository<ProductImage> ProductImageRepository { get; }
-        public UnitOfWork(MyDbContext context, IGenericRepository<Product> product, IGenericRepository<ProductColor> productColor, IGenericRepository<Image> image, IGenericRepository<ProductImage> productImage)
+        public UnitOfWork(MyDbContext context,
+            IGenericRepository<Bill> bill,
+            IGenericRepository<BillStatus> billStatus,
+            IGenericRepository<Brand> brand,
+            IGenericRepository<ProductImage> productImage,
+            IGenericRepository<Cart> cart,
+            IGenericRepository<Color> color,
+            IGenericRepository<FavoriteList> favoriteList,
+            IGenericRepository<NewsImage> newsImage,
+            IGenericRepository<Role> role,
+            IGenericRepository<User> user,
+            IGenericRepository<Product> product,
+            IGenericRepository<ProductColor> productColor,
+            IGenericRepository<Image> image)
         {
             _context = context;
+            BillRepository = bill;
+            BillStatusRepository = billStatus;
+            BrandRepository = brand;
+            CartRepository = cart;
+            ColorRepository = color;
+            FavoriteListRepository = favoriteList;
+            NewsImageRepository = newsImage;
+            RoleRepository = role;
+            UserRepository = user;
+            ProductImageRepository = productImage;
             ProductRepository = product;
             ProductColorRepository = productColor;
-            ImageRepository = image;
-            ProductImageRepository = productImage;
         }
 
         public async Task CommitAsync()
@@ -51,7 +83,7 @@ namespace API.Common
                 }
                 catch (Exception ex)
                 {
-                    throw ex;
+                    Logger.LogError(ex.ToString());
                 }
             }
         }
