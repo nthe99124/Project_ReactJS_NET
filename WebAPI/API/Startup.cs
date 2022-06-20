@@ -11,8 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Model;
 using Model.BaseEntity;
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace API
@@ -46,23 +48,24 @@ namespace API
             //AddTransient - Một thể hiện của service sẽ được cung cấp đến mỗi class request nó.
             //AddScoped - Một thể hiện của service sẽ được tạo trên mỗi request.
             //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
-            services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
-            services.AddTransient<IGenericRepository<Image>, GenericRepository<Image>>();
-            services.AddTransient<IGenericRepository<ProductColor>, GenericRepository<ProductColor>>();
-            services.AddTransient<IGenericRepository<ProductImage>, GenericRepository<ProductImage>>();
-            services.AddTransient<IGenericRepository<Bill>, GenericRepository<Bill>>();
-            services.AddTransient<IGenericRepository<BillStatus>, GenericRepository<BillStatus>>();
-            services.AddTransient<IGenericRepository<Brand>, GenericRepository<Brand>>();
-            services.AddTransient<IGenericRepository<Cart>, GenericRepository<Cart>>();
-            services.AddTransient<IGenericRepository<Color>, GenericRepository<Color>>();
-            services.AddTransient<IGenericRepository<FavoriteList>, GenericRepository<FavoriteList>>();
-            services.AddTransient<IGenericRepository<NewsImage>, GenericRepository<NewsImage>>();
-            services.AddTransient<IGenericRepository<News>, GenericRepository<News>>();
-            services.AddTransient<IGenericRepository<Role>, GenericRepository<Role>>();
-            services.AddTransient<IGenericRepository<User>, GenericRepository<User>>();
-            services.AddTransient<IGenericRepository<UserRole>, GenericRepository<UserRole>>();
+            //services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
+            //services.AddTransient<IGenericRepository<Image>, GenericRepository<Image>>();
+            //services.AddTransient<IGenericRepository<ProductColor>, GenericRepository<ProductColor>>();
+            //services.AddTransient<IGenericRepository<ProductImage>, GenericRepository<ProductImage>>();
+            //services.AddTransient<IGenericRepository<Bill>, GenericRepository<Bill>>();
+            //services.AddTransient<IGenericRepository<BillStatus>, GenericRepository<BillStatus>>();
+            //services.AddTransient<IGenericRepository<Brand>, GenericRepository<Brand>>();
+            //services.AddTransient<IGenericRepository<Cart>, GenericRepository<Cart>>();
+            //services.AddTransient<IGenericRepository<Color>, GenericRepository<Color>>();
+            //services.AddTransient<IGenericRepository<FavoriteList>, GenericRepository<FavoriteList>>();
+            //services.AddTransient<IGenericRepository<NewsImage>, GenericRepository<NewsImage>>();
+            //services.AddTransient<IGenericRepository<News>, GenericRepository<News>>();
+            //services.AddTransient<IGenericRepository<Role>, GenericRepository<Role>>();
+            //services.AddTransient<IGenericRepository<User>, GenericRepository<User>>();
+            //services.AddTransient<IGenericRepository<UserRole>, GenericRepository<UserRole>>();
 
-            services.AddTransient<UnitOfWork>();
+            //services.AddTransient<UnitOfWork>();
+
 
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IImageRepository, ImageRepository>();
@@ -79,20 +82,20 @@ namespace API
             services.AddTransient<IRoleRepository, RoleRepository>();
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserRoleRepository, UserRoleRepository>();
-
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
             #region config Swagger - Use Bearer
             services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
-                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                    Name = "Authorization",
-                    Type = SecuritySchemeType.Http,
-                    Scheme = "Bearer",
-                    In = ParameterLocation.Header,
-                    Description = "Bearer Auth"
-                });
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" });
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        Name = "Authorization",
+                        Type = SecuritySchemeType.Http,
+                        Scheme = "Bearer",
+                        In = ParameterLocation.Header,
+                        Description = "Bearer Auth"
+                    });
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement {
                     {
                         new OpenApiSecurityScheme
                         {
@@ -104,8 +107,8 @@ namespace API
                         },
                         new string[]{}
                     }
+                    });
                 });
-            });
             #endregion
 
             #region config token

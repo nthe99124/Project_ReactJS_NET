@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using API.Common;
+using API.Common.Interface;
 using API.Repositories.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -15,9 +16,9 @@ namespace API.Controllers
     public class BrandController : ControllerBase
     {
         private readonly ILogger<BrandController> _logger;
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public BrandController(UnitOfWork unitOfWork, ILogger<BrandController> logger)
+        public BrandController(IUnitOfWork unitOfWork, ILogger<BrandController> logger)
         {
             _unitOfWork = unitOfWork;
             _logger = logger;

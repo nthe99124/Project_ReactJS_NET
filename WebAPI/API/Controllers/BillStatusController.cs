@@ -1,4 +1,5 @@
 ﻿using API.Common;
+using API.Common.Interface;
 using API.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,11 @@ namespace API.Controllers
     [ApiController]
     public class BillStatusController : ControllerBase
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IBillRepository _billRepository;
         private readonly IBillStatusRepository _billStatusRepository;
 
-        public BillStatusController(IBillRepository billRepository, IBillStatusRepository billStatusRepository, UnitOfWork unitOfWork)
+        public BillStatusController(IBillRepository billRepository, IBillStatusRepository billStatusRepository, IUnitOfWork unitOfWork)
         {
             _billRepository = billRepository;
             _billStatusRepository = billStatusRepository;

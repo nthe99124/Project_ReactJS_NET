@@ -1,4 +1,5 @@
 ﻿using API.Common;
+using API.Common.Interface;
 using API.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,10 @@ namespace API.Controllers
     [ApiController]
     public class FavoriteListController : ControllerBase
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IFavoriteListRepository _favoriteListRepository;
 
-        public FavoriteListController(IFavoriteListRepository favoriteListRepository, UnitOfWork unitOfWork)
+        public FavoriteListController(IFavoriteListRepository favoriteListRepository, IUnitOfWork unitOfWork)
         {
             _favoriteListRepository = favoriteListRepository;
             _unitOfWork = unitOfWork;

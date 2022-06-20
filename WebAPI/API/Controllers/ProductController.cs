@@ -19,20 +19,11 @@ namespace API.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ILogger<ProductController> _logger;
-        private readonly UnitOfWork _unitOfWork;
-        private readonly IProductRepository _productRepository;
-        private readonly IProductColorRepository _productColorRepository;
-        private readonly IProductImageRepository _productImageRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public ProductController(IProductRepository productRepository,
-            IProductColorRepository productColorRepository,
-            IProductImageRepository productImageRepository,
-            UnitOfWork unitOfWork,
-            ILogger<ProductController> logger)
+        public ProductController(IUnitOfWork unitOfWork,
+                                ILogger<ProductController> logger)
         {
-            _productRepository = productRepository;
-            _productColorRepository = productColorRepository;
-            _productImageRepository = productImageRepository;
             _unitOfWork = unitOfWork;
             _logger = logger;
         }
@@ -43,7 +34,7 @@ namespace API.Controllers
         {
             try
             {
-                var rs = _productRepository.GetAllProductPaging(pageIndex);
+                var rs = _unitOfWork.ProductRepository.GetAllProductPaging(pageIndex);
                 _logger.LogInformation("GetAllProductPaging:start ");
                 return Ok(rs);
             }
@@ -60,7 +51,7 @@ namespace API.Controllers
         {
             try
             {
-                var rs = await _productRepository.GetProductByAnyPoint(pro, pageIndex);
+                var rs = await _unitOfWork.ProductRepository.GetProductByAnyPoint(pro, pageIndex);
                 return Ok(rs);
             }
             catch (Exception ex)
@@ -176,8 +167,8 @@ namespace API.Controllers
                     // check Update Color
                     if (pro.ColorId != null)
                     {
-                        var lstColorNew = _productColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id) && pro.ColorId.Contains(c.ColorId));
-                        var lstColorOld = _productColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id));
+                        var lstColorNew = _unitOfWork.ProductColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id) && pro.ColorId.Contains(c.ColorId));
+                        var lstColorOld = _unitOfWork.ProductColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id));
                         var lstColorNewClone = new Dictionary<int, long>(lstColorNew);
                         var lstColorOldClone = new Dictionary<int, long>(lstColorOld);
                         var lstColorMax = lstColorOld.Count;
@@ -227,8 +218,8 @@ namespace API.Controllers
 
                     if (pro.UrlImage != null)
                     {
-                        var lstImgNew = _productImageRepository.GetProductIdImageId(pro.UrlImage);
-                        var lstImgOld = _productImageRepository.GetProductIdImageIdByProductId(id);
+                        var lstImgNew = _unitOfWork.ProductImageRepository.GetProductIdImageId(pro.UrlImage);
+                        var lstImgOld = _unitOfWork.ProductImageRepository.GetProductIdImageIdByProductId(id);
                         var lstImgNewClone = new Dictionary<long, long>(lstImgNew);
                         var lstImgOldClone = new Dictionary<long, long>(lstImgOld);
                         var lstImgMax = lstImgOld.Count;

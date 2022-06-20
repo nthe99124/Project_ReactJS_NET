@@ -1,4 +1,5 @@
 ﻿using API.Common;
+using API.Common.Interface;
 using API.Repositories.Interface;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,10 @@ namespace API.Controllers
     [ApiController]
     public class ColorController : ControllerBase
     {
-        private readonly UnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IColorRepository _colorRepository;
 
-        public ColorController(IColorRepository colorRepository, UnitOfWork unitOfWork)
+        public ColorController(IColorRepository colorRepository, IUnitOfWork unitOfWork)
         {
             _colorRepository = colorRepository;
             _unitOfWork = unitOfWork;

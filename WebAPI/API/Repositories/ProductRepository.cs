@@ -39,7 +39,7 @@ namespace API.Repositories
                         Weight = p.Weight,
                         Size = p.Size,
                     });
-
+                //_logger.LogInformation("GetAllProductPaging:start Repository ");
                 return new RestOutput<ProductViewModel>(lstProduct.ToList(), rs.count);
             }
             catch (Exception ex)
