@@ -14,38 +14,23 @@ namespace API.Common
     public class UnitOfWork : IUnitOfWork
     {
         private readonly ILogger<UnitOfWork> _logger;
-        private readonly ILogger<ProductRepository> _productLogger;
         readonly MyDbContext _context;
 
-        public IBillRepository BillRepository => new BillRepository(_context);
-
-        public IBillStatusRepository BillStatusRepository => new BillStatusRepository(_context);
-
-        public IBrandRepository BrandRepository => new BrandRepository(_context);
-
-        public ICartRepository CartRepository => new CartRepository(_context);
-
-        public IColorRepository ColorRepository => new ColorRepository(_context);
-
-        public IFavoriteListRepository FavoriteListRepository => new FavoriteListRepository(_context);
-
-        public INewsImageRepository NewsImageRepository => new NewsImageRepository(_context);
-
-        public INewsRepository NewsRepository => new NewsRepository(_context);
-
-        public IRoleRepository RoleRepository => new RoleRepository(_context);
-
-        public IUserRepository UserRepository => new UserRepository(_context);
-
-        public IProductRepository ProductRepository => new ProductRepository(_context, _productLogger);
-
-        public IProductColorRepository ProductColorRepository => new ProductColorRepository(_context);
-
-        public IImageRepository ImageRepository => new ImageRepository(_context);
-
-        public IProductImageRepository ProductImageRepository => new ProductImageRepository(_context);
-
-        public IUserRoleRepository UserRoleRepository => new UserRoleRepository(_context);
+        public IBillRepository BillRepository { get; }
+        public IBillStatusRepository BillStatusRepository { get; }
+        public IBrandRepository BrandRepository { get; }
+        public ICartRepository CartRepository { get; }
+        public IColorRepository ColorRepository { get; }
+        public IFavoriteListRepository FavoriteListRepository { get; }
+        public INewsImageRepository NewsImageRepository { get; }
+        public INewsRepository NewsRepository { get; }
+        public IRoleRepository RoleRepository { get; }
+        public IUserRepository UserRepository { get; }
+        public IProductRepository ProductRepository { get; }
+        public IProductColorRepository ProductColorRepository { get; }
+        public IImageRepository ImageRepository { get; }
+        public IProductImageRepository ProductImageRepository { get; }
+        public IUserRoleRepository UserRoleRepository { get; }
 
         public UnitOfWork(
             ILogger<UnitOfWork> logger,
@@ -53,6 +38,44 @@ namespace API.Common
         {
             _logger = logger;
             _context = context;
+        }
+
+        public UnitOfWork(
+            ILogger<UnitOfWork> logger,
+            MyDbContext context,
+            IBillRepository bill,
+            IBillStatusRepository billStatus,
+            IBrandRepository brand,
+            IProductImageRepository productImage,
+            ICartRepository cart,
+            IColorRepository color,
+            IFavoriteListRepository favoriteList,
+            INewsRepository news,
+            INewsImageRepository newsImage,
+            IRoleRepository role,
+            IUserRepository user,
+            IProductRepository product,
+            IProductColorRepository productColor,
+            IImageRepository image,
+            IUserRoleRepository userRoleRepository)
+        {
+            _logger = logger;
+            _context = context;
+            BillRepository = bill;
+            BillStatusRepository = billStatus;
+            BrandRepository = brand;
+            CartRepository = cart;
+            ColorRepository = color;
+            FavoriteListRepository = favoriteList;
+            NewsImageRepository = newsImage;
+            RoleRepository = role;
+            UserRepository = user;
+            ProductImageRepository = productImage;
+            ProductRepository = product;
+            ProductColorRepository = productColor;
+            ImageRepository = image;
+            NewsRepository = news;
+            UserRoleRepository = userRoleRepository;
         }
 
         public async Task CommitAsync()
