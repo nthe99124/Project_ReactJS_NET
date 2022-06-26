@@ -8,8 +8,13 @@ namespace API.Common
         {
 
         }
+
+        public RestOutputCommand(T data)
+        {
+            Data = data;
+        }
         public bool Success { get; set; }
         public string Message { get; set; } = "Success";
-        public List<T> Data { get; set; }
+        public T Data { get; set; }
     }
 }

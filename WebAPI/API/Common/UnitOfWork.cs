@@ -1,13 +1,8 @@
 ﻿using API.Common.Interface;
-using API.Controllers;
-using API.Repositories;
 using API.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Model.BaseEntity;
-using System;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace API.Common
 {

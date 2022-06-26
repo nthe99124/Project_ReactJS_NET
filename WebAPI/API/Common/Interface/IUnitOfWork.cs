@@ -1,17 +1,11 @@
-﻿
-using API.Repositories.Interface;
-using Microsoft.Data.SqlClient;
+﻿using API.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
-using Model.BaseEntity;
-using System.Collections.Generic;
-using System.Data;
 using System.Threading.Tasks;
 
 namespace API.Common.Interface
 {
     public interface IUnitOfWork
     {
-        // don't understand why using UnitOfWork to use Function CommitAsync() but not always in the Create, Update, ... methods in GenericRespository
         public IBillRepository BillRepository { get; }
         public IBillStatusRepository BillStatusRepository { get; }
         public IBrandRepository BrandRepository { get; }

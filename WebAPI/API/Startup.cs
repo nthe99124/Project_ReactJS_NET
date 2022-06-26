@@ -2,6 +2,8 @@
 using API.Common.Interface;
 using API.Repositories;
 using API.Repositories.Interface;
+using API.Service;
+using API.Service.Interface;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,10 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Model;
-using Model.BaseEntity;
 using System;
-using System.Collections.Generic;
 using System.Text;
 
 namespace API
@@ -48,41 +47,41 @@ namespace API
             //AddTransient - Một thể hiện của service sẽ được cung cấp đến mỗi class request nó.
             //AddScoped - Một thể hiện của service sẽ được tạo trên mỗi request.
             //AddSingleton - Một thể hiện của service sẽ được tạo cho vòng đời của ứng dụng
-            //services.AddTransient<IGenericRepository<Product>, GenericRepository<Product>>();
-            //services.AddTransient<IGenericRepository<Image>, GenericRepository<Image>>();
-            //services.AddTransient<IGenericRepository<ProductColor>, GenericRepository<ProductColor>>();
-            //services.AddTransient<IGenericRepository<ProductImage>, GenericRepository<ProductImage>>();
-            //services.AddTransient<IGenericRepository<Bill>, GenericRepository<Bill>>();
-            //services.AddTransient<IGenericRepository<BillStatus>, GenericRepository<BillStatus>>();
-            //services.AddTransient<IGenericRepository<Brand>, GenericRepository<Brand>>();
-            //services.AddTransient<IGenericRepository<Cart>, GenericRepository<Cart>>();
-            //services.AddTransient<IGenericRepository<Color>, GenericRepository<Color>>();
-            //services.AddTransient<IGenericRepository<FavoriteList>, GenericRepository<FavoriteList>>();
-            //services.AddTransient<IGenericRepository<NewsImage>, GenericRepository<NewsImage>>();
-            //services.AddTransient<IGenericRepository<News>, GenericRepository<News>>();
-            //services.AddTransient<IGenericRepository<Role>, GenericRepository<Role>>();
-            //services.AddTransient<IGenericRepository<User>, GenericRepository<User>>();
-            //services.AddTransient<IGenericRepository<UserRole>, GenericRepository<UserRole>>();
 
-            //services.AddTransient<UnitOfWork>();
+            services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IImageRepository, ImageRepository>();
+            services.AddScoped<IProductColorRepository, ProductColorRepository>();
+            services.AddScoped<IProductImageRepository, ProductImageRepository>();
+            services.AddScoped<IBillRepository, BillRepository>();
+            services.AddScoped<IBillStatusRepository, BillStatusRepository>();
+            services.AddScoped<IBrandRepository, BrandRepository>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<IColorRepository, ColorRepository>();
+            services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
+            services.AddScoped<INewsImageRepository, NewsImageRepository>();
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<IImageRepository, ImageRepository>();
-            services.AddTransient<IProductColorRepository, ProductColorRepository>();
-            services.AddTransient<IProductImageRepository, ProductImageRepository>();
-            services.AddTransient<IBillRepository, BillRepository>();
-            services.AddTransient<IBillStatusRepository, BillStatusRepository>();
-            services.AddTransient<IBrandRepository, BrandRepository>();
-            services.AddTransient<ICartRepository, CartRepository>();
-            services.AddTransient<IColorRepository, ColorRepository>();
-            services.AddTransient<IFavoriteListRepository, FavoriteListRepository>();
-            services.AddTransient<INewsImageRepository, NewsImageRepository>();
-            services.AddTransient<INewsRepository, NewsRepository>();
-            services.AddTransient<IRoleRepository, RoleRepository>();
-            services.AddTransient<IUserRepository, UserRepository>();
-            services.AddTransient<IUserRoleRepository, UserRoleRepository>();
-            services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IProductColorService, ProductColorService>();
+            services.AddScoped<IProductImageService, ProductImageService>();
+            services.AddScoped<IBillService, BillService>();
+            services.AddScoped<IBillStatusService, BillStatusService>();
+            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<IColorService, ColorService>();
+            services.AddScoped<IFavoriteListService, FavoriteListService>();
+            services.AddScoped<INewsImageService, NewsImageService>();
+            services.AddScoped<INewsService, NewsService>();
+            services.AddScoped<IRoleService, RoleService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRoleService, UserRoleService>();
+
             #region config Swagger - Use Bearer
             services.AddSwaggerGen(c =>
                 {
