@@ -26,6 +26,7 @@ namespace API.Service
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 throw;
             }
         }
@@ -39,11 +40,12 @@ namespace API.Service
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 throw;
             }
         }
 
-        public async Task<RestOutputCommand<ProductViewModel>> InsertProduct(ProductViewModel pro)
+        public async Task<RestOutputCommand<ProductViewModel>> Add(ProductViewModel pro)
         {
             try
             {
@@ -114,16 +116,16 @@ namespace API.Service
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 throw;
             }
-
         }
 
-        public async Task<RestOutputCommand<ProductViewModel>> UpdateProduct(int id, ProductViewModel pro)
+        public async Task<RestOutputCommand<ProductViewModel>> Update(ProductViewModel pro)
         {
             try
             {
-                var product = await _unitOfWork.ProductRepository.FirstOrDefault(x => x.Id == id);
+                var product = await _unitOfWork.ProductRepository.FirstOrDefault(x => x.Id == pro.IdPro);
                 if (product != null)
                 {
                     product.Name = pro.NamePro;
@@ -145,8 +147,8 @@ namespace API.Service
                     // check Update Color
                     if (pro.ColorId != null)
                     {
-                        var lstColorNew = _unitOfWork.ProductColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id) && pro.ColorId.Contains(c.ColorId));
-                        var lstColorOld = _unitOfWork.ProductColorRepository.GetProductIdColorId(c => c.ProductId.Equals(id));
+                        var lstColorNew = _unitOfWork.ProductColorRepository.GetProductIdColorId(c => c.ProductId.Equals(pro.IdPro) && pro.ColorId.Contains(c.ColorId));
+                        var lstColorOld = _unitOfWork.ProductColorRepository.GetProductIdColorId(c => c.ProductId.Equals(pro.IdPro));
                         var lstColorNewClone = new Dictionary<int, long>(lstColorNew);
                         var lstColorOldClone = new Dictionary<int, long>(lstColorOld);
                         var lstColorMax = lstColorOld.Count;
@@ -172,7 +174,7 @@ namespace API.Service
 
                         if (lstColorOldClone.Count != 0)
                         {
-                            _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(id) && lstColorOldClone.Values.Contains(c.ColorId));
+                            _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(pro.IdPro) && lstColorOldClone.Values.Contains(c.ColorId));
                         }
                         var productColors = new List<ProductColor>();
                         if (lstColorNewClone.Count != 0)
@@ -191,13 +193,13 @@ namespace API.Service
                     }
                     else
                     {
-                        _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(id));
+                        _unitOfWork.ProductColorRepository.DeleteRange(c => c.ProductId.Equals(pro.IdPro));
                     }
 
                     if (pro.UrlImage != null)
                     {
                         var lstImgNew = _unitOfWork.ProductImageRepository.GetProductIdImageId(pro.UrlImage);
-                        var lstImgOld = _unitOfWork.ProductImageRepository.GetProductIdImageIdByProductId(id);
+                        var lstImgOld = _unitOfWork.ProductImageRepository.GetProductIdImageIdByProductId(pro.IdPro);
                         var lstImgNewClone = new Dictionary<long, long>(lstImgNew);
                         var lstImgOldClone = new Dictionary<long, long>(lstImgOld);
                         var lstImgMax = lstImgOld.Count;
@@ -220,7 +222,7 @@ namespace API.Service
                         }
                         if (lstImgOldClone.Count != 0)
                         {
-                            _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(id) && lstImgOldClone.Values.Contains(c.ImageId));
+                            _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(pro.IdPro) && lstImgOldClone.Values.Contains(c.ImageId));
                         }
                         var productImages = new List<ProductImage>();
                         if (lstImgNewClone.Count != 0)
@@ -239,7 +241,7 @@ namespace API.Service
                     }
                     else
                     {
-                        _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(id));
+                        _unitOfWork.ProductImageRepository.DeleteRange(c => c.ProductId.Equals(product.Id));
                     }
 
                     _unitOfWork.ProductRepository.Update(product);
@@ -251,6 +253,49 @@ namespace API.Service
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex);
+                throw;
+            }
+        }
+
+        public async Task<RestOutputCommand<ProductViewModel>> Delete(dynamic id)
+        {
+            try
+            {
+                long idPro = Convert.ToInt64(id);
+                var product = await _unitOfWork.ProductRepository.FirstOrDefault(x => x.Id == idPro);
+                if (product != null)
+                {
+                    //Remove ProductColor
+                    if (product.ProductColor != null)
+                    {
+                        _unitOfWork.ProductColorRepository.DeleteRange(product.ProductColor);
+                    }
+
+                    //Remove ProductImage
+                    if (product.ProductImage != null)
+                    {
+                        _unitOfWork.ProductImageRepository.DeleteRange(product.ProductImage);
+                    }
+
+                    //Remove Image
+                    if (product.ProductImage != null)
+                    {
+                        foreach (var item in product.ProductImage)
+                        {
+                            _unitOfWork.ImageRepository.Delete(item.Image);
+                        }
+                    }
+                    _unitOfWork.ProductRepository.Delete(product);
+                    await _unitOfWork.CommitAsync();
+                }
+
+                var rs = new RestOutputCommand<ProductViewModel>(null);
+                return rs;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
                 throw;
             }
         }

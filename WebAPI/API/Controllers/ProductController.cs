@@ -60,23 +60,39 @@ namespace API.Controllers
         {
             try
             {
-                var rs = await _productService.InsertProduct(pro);
+                var rs = await _productService.Add(pro);
                 return Ok(rs);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "InsertProduct: ");
+                _logger.LogError(ex, "Add: ");
                 return BadRequest();
             }
         }
 
         [HttpPost("UpdateProduct")]
         [Authorize]
-        public async Task<IActionResult> UpdateProduct([FromQuery] int id, [FromBody] ProductViewModel pro)
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductViewModel pro)
         {
             try
             {
-                var rs = await _productService.UpdateProduct(id, pro);
+                var rs = await _productService.Update(pro);
+                return Ok(rs);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "UpdateProduct: ");
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("DeleteProduct")]
+        [Authorize]
+        public async Task<IActionResult> DeleteProduct(long id)
+        {
+            try
+            {
+                var rs = await _productService.Delete(id);
                 return Ok(rs);
             }
             catch (Exception ex)

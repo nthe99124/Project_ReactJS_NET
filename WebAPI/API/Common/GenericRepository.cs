@@ -1,39 +1,37 @@
 ﻿using API.Common.Interface;
-using API.Repositories;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace API.Common
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public abstract class GenericRepository<T> : IGenericRepository<T> where T : class
     {
-        private readonly DbSet<T> _dbset;
+        private readonly DbSet<T> _dbSet;
         protected readonly MyDbContext _context;
-        public GenericRepository(MyDbContext context)
+
+        protected GenericRepository(MyDbContext context)
         {
             _context = context;
-            _dbset = _context.Set<T>();
+            _dbSet = _context.Set<T>();
         }
 
         public IEnumerable<T> GetAll()
         {
-            var result = _dbset.AsEnumerable<T>();
+            var result = _dbSet.AsEnumerable<T>();
             return result;
         }
 
         public (int count, IQueryable<T> data) GetAllPaging(Paging paging)
         {
-            var result = _dbset.AsQueryable();
+            var result = _dbSet.AsQueryable();
             var count = result.Count();
             if (paging != null)
             {
@@ -45,27 +43,27 @@ namespace API.Common
 
         public async Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate)
         {
-            return await Task.Run(() => _dbset.Where(predicate).AsEnumerable<T>());
+            return await Task.Run(() => _dbSet.Where(predicate).AsEnumerable<T>());
         }
 
         public async Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate)
         {
-            return await Task.Run(() => _dbset.FirstOrDefault(predicate));
+            return await Task.Run(() => _dbSet.FirstOrDefault(predicate));
         }
 
         public void Create(T entity)
         {
-            _dbset.Add(entity);
+            _dbSet.Add(entity);
         }
 
         public async Task CreateAsync(T entity)
         {
-            await _dbset.AddAsync(entity);
+            await _dbSet.AddAsync(entity);
         }
 
         public async Task CreateRangeAsync(List<T> entity)
         {
-            await _dbset.AddRangeAsync(entity);
+            await _dbSet.AddRangeAsync(entity);
         }
 
         public void Update(T entity)
@@ -81,25 +79,30 @@ namespace API.Common
             //Dbset.Attach(lstEntity);
             //DbContext.Entry(lstEntity).State = EntityState.Modified;
             //_entities.Set<Entity>();
-            var entity = _dbset.Where(predicate);
-            _dbset.UpdateRange(entity);
+            var entity = _dbSet.Where(predicate);
+            _dbSet.UpdateRange(entity);
         }
 
         public void Delete(T entity)
         {
-            _dbset.Remove(entity);
+            _dbSet.Remove(entity);
         }
 
         public void DeleteById(dynamic id)
         {
-            var entity = _dbset.Find(id);
-            _dbset.Remove(entity);
+            var entity = _dbSet.Find(id);
+            _dbSet.Remove(entity);
         }
 
         public void DeleteRange(Expression<Func<T, bool>> predicate)
         {
-            var entity = _dbset.Where(predicate);
-            _dbset.RemoveRange(entity);
+            var entity = _dbSet.Where(predicate);
+            _dbSet.RemoveRange(entity);
+        }
+
+        public void DeleteRange(IEnumerable<T> lstEntity)
+        {
+            _dbSet.RemoveRange(lstEntity);
         }
 
         public List<TTable> PagingResult<TTable>(List<TTable> lstEntity, Paging paging = null) where TTable : class

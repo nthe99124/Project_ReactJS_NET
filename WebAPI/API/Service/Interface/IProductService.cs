@@ -1,16 +1,12 @@
-﻿using System.Threading.Tasks;
-using API.Common;
-using Microsoft.AspNetCore.Mvc;
-using Model.BaseEntity;
+﻿using API.Common;
 using Model.ViewModel.Product;
+using System.Threading.Tasks;
 
 namespace API.Service.Interface
 {
-    public interface IProductService
+    public interface IProductService : IGenericService<ProductViewModel>
     {
         RestOutput<ProductViewModel> GetAllProductPaging(int pageIndex);
         Task<RestOutput<ProductViewModel>> GetProductByAnyPoint(ProductViewModel pro, int pageIndex);
-        Task<RestOutputCommand<ProductViewModel>> InsertProduct(ProductViewModel pro);
-        Task<RestOutputCommand<ProductViewModel>> UpdateProduct(int id, ProductViewModel pro);
     }
 }

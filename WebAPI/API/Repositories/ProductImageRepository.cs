@@ -18,10 +18,11 @@ namespace API.Repositories
                                                     .ToDictionary(x => x.ImageID, x => x.ProductID);
             return lstProColor;
         }
-        public Dictionary<long, long> GetProductIdImageIdByProductId(long ProductID)
+
+        public Dictionary<long, long> GetProductIdImageIdByProductId(long? productID)
         {
             var lstProColor = this._context.ProductImage
-                                                    .Where(pi => pi.ProductId.Equals(ProductID))
+                                                    .Where(pi => pi.ProductId.Equals(productID))
                                                     .Select(pi => new { ProductID = pi.ProductId, ImageID = pi.ImageId })
                                                     .ToDictionary(x => x.ImageID, x => x.ProductID);
             return lstProColor;

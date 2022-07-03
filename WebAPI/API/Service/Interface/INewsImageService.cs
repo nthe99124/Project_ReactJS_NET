@@ -1,6 +1,8 @@
-﻿namespace API.Service.Interface
+﻿using Model.BaseEntity;
+
+namespace API.Service.Interface
 {
-    public interface INewsImageService
+    public interface INewsImageService : IGenericService<NewsImage>
     {
     }
 }

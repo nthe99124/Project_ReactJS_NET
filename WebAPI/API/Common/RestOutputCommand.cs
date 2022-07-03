@@ -15,6 +15,6 @@ namespace API.Common
         }
         public bool Success { get; set; }
         public string Message { get; set; } = "Success";
-        public T Data { get; set; }
+        private T Data { get; set; }
     }
 }

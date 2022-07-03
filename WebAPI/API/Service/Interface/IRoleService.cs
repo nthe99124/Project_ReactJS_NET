@@ -1,6 +1,8 @@
-﻿namespace API.Service.Interface
+﻿using Model.BaseEntity;
+
+namespace API.Service.Interface
 {
-    public interface IRoleService
+    public interface IRoleService : IGenericService<Role>
     {
     }
 }

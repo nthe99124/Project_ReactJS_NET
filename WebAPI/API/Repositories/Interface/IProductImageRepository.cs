@@ -7,6 +7,6 @@ namespace API.Repositories.Interface
     public interface IProductImageRepository : IGenericRepository<ProductImage>
     {
         Dictionary<long, long> GetProductIdImageId(List<string> urlImg);
-        Dictionary<long, long> GetProductIdImageIdByProductId(long productId);
+        Dictionary<long, long> GetProductIdImageIdByProductId(long? productID);
     }
 }

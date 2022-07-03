@@ -1,6 +1,8 @@
-﻿namespace API.Service.Interface
+﻿using Model.BaseEntity;
+
+namespace API.Service.Interface
 {
-    public interface IUserService
+    public interface IUserService : IGenericService<User>
     {
     }
 }

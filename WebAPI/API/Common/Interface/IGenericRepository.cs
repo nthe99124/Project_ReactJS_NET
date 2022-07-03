@@ -22,6 +22,7 @@ namespace API.Common.Interface
         void Delete(T entity);
         void DeleteById(dynamic id);
         void DeleteRange(Expression<Func<T, bool>> predicate);
+        void DeleteRange(IEnumerable<T> lstEntity);
         List<TTable> PagingResult<TTable>(List<TTable> lstEntity, Paging paging = null) where TTable : class;
         List<TTable> FindByAnyPoint<TTable>(List<TTable> lstEntity, TTable parameter) where TTable : class;
         // for using ADO
