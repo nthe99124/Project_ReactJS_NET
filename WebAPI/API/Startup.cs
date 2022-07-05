@@ -60,11 +60,9 @@ namespace API
             services.AddScoped<IFavoriteListRepository, FavoriteListRepository>();
             services.AddScoped<INewsImageRepository, NewsImageRepository>();
             services.AddScoped<INewsRepository, NewsRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IUserRoleRepository, UserRoleRepository>();
 
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IImageService, ImageService>();
@@ -78,9 +76,7 @@ namespace API
             services.AddScoped<IFavoriteListService, FavoriteListService>();
             services.AddScoped<INewsImageService, NewsImageService>();
             services.AddScoped<INewsService, NewsService>();
-            services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUserRoleService, UserRoleService>();
 
             #region config Swagger - Use Bearer
             services.AddSwaggerGen(c =>
@@ -157,6 +153,19 @@ namespace API
             //need for authentication and author
             app.UseAuthentication();
             app.UseAuthorization();
+
+            //need when config body with status code
+            //app.Use(async (context, next) =>
+            //{
+            //    await next();
+            //    if (context.Response.StatusCode == 404)
+            //    {
+            //        //object for error
+            //        var rs = new Paging(1, 5);
+            //        context.Response.ContentType = "application/json";
+            //        await context.Response.WriteAsync(JsonConvert.SerializeObject(rs), Encoding.UTF8);
+            //    }
+            //});
 
             app.UseEndpoints(endpoints =>
             {

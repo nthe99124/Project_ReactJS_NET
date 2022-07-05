@@ -40,7 +40,7 @@ namespace API.Repositories
                         Size = p.Size,
                     });
                 //_logger.LogInformation("GetAllProductPaging:start Repository ");
-                return new RestOutput<ProductViewModel>(lstProduct.ToList(), rs.count);
+                return new RestOutput<ProductViewModel>(lstProduct.ToList(), rs.totalRecord);
             }
             catch (Exception ex)
             {
@@ -71,10 +71,11 @@ namespace API.Repositories
                             Size = p.Size,
                         }).ToListAsync();
 
+                var rs = new RestOutput<ProductViewModel>(lstProduct.Count);
                 lstProduct = FindByAnyPoint<ProductViewModel>(lstProduct, pro);
                 lstProduct = PagingResult<ProductViewModel>(lstProduct, new Paging(pageIndex));
-
-                return new RestOutput<ProductViewModel>(lstProduct, lstProduct.Count);
+                rs.Data = lstProduct;
+                return rs;
             }
             catch (Exception ex)
             {

@@ -23,7 +23,7 @@ namespace API.Service
         public RestOutput<Brand> GetAllPaging(Paging paging)
         {
             var lstBrand = _unitOfWork.BrandRepository.GetAllPaging(paging);
-            var rs = new RestOutput<Brand>(lstBrand.data.ToList(), lstBrand.count);
+            var rs = new RestOutput<Brand>(lstBrand.data.ToList(), lstBrand.totalRecord);
             return rs;
         }
 

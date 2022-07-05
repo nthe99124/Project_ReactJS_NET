@@ -29,16 +29,16 @@ namespace API.Common
             return result;
         }
 
-        public (int count, IQueryable<T> data) GetAllPaging(Paging paging)
+        public (long totalRecord, IQueryable<T> data) GetAllPaging(Paging paging)
         {
             var result = _dbSet.AsQueryable();
-            var count = result.Count();
+            var totalRecord = Convert.ToInt64(result.Count());
             if (paging != null)
             {
                 result = result.Skip((paging.PageFind - 1) * paging.PageSize)
                     .Take(paging.PageSize);
             }
-            return (count, result);
+            return (totalRecord, result);
         }
 
         public async Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate)
