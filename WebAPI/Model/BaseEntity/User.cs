@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using static Model.Enum.User;
 
 namespace Model.BaseEntity
 {
@@ -19,9 +20,9 @@ namespace Model.BaseEntity
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public DateTime DoB { get; set; }
+        public UserRole UserRole { get; set; }
         // may be not need ICollection<Bill> when class Bill have public User User
         public ICollection<Bill> Bills { get; set; }
         public ICollection<Cart> Carts { get; set; }
-        public ICollection<UserRole> UserRole { get; set; }
     }
 }

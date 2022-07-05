@@ -14,13 +14,11 @@ namespace API.Common.Interface
         public IFavoriteListRepository FavoriteListRepository { get; }
         public INewsImageRepository NewsImageRepository { get; }
         public INewsRepository NewsRepository { get; }
-        public IRoleRepository RoleRepository { get; }
         public IUserRepository UserRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IProductColorRepository ProductColorRepository { get; }
         public IImageRepository ImageRepository { get; }
         public IProductImageRepository ProductImageRepository { get; }
-        public IUserRoleRepository UserRoleRepository { get; }
         Task CommitAsync();
         void Commit();
         DbSet<T> Set<T>() where T : class;

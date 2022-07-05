@@ -19,13 +19,11 @@ namespace API.Common
         public IFavoriteListRepository FavoriteListRepository { get; }
         public INewsImageRepository NewsImageRepository { get; }
         public INewsRepository NewsRepository { get; }
-        public IRoleRepository RoleRepository { get; }
         public IUserRepository UserRepository { get; }
         public IProductRepository ProductRepository { get; }
         public IProductColorRepository ProductColorRepository { get; }
         public IImageRepository ImageRepository { get; }
         public IProductImageRepository ProductImageRepository { get; }
-        public IUserRoleRepository UserRoleRepository { get; }
 
         public UnitOfWork(
             ILogger<UnitOfWork> logger,
@@ -47,12 +45,10 @@ namespace API.Common
             IFavoriteListRepository favoriteList,
             INewsRepository news,
             INewsImageRepository newsImage,
-            IRoleRepository role,
             IUserRepository user,
             IProductRepository product,
             IProductColorRepository productColor,
-            IImageRepository image,
-            IUserRoleRepository userRoleRepository)
+            IImageRepository image)
         {
             _logger = logger;
             _context = context;
@@ -63,14 +59,12 @@ namespace API.Common
             ColorRepository = color;
             FavoriteListRepository = favoriteList;
             NewsImageRepository = newsImage;
-            RoleRepository = role;
             UserRepository = user;
             ProductImageRepository = productImage;
             ProductRepository = product;
             ProductColorRepository = productColor;
             ImageRepository = image;
             NewsRepository = news;
-            UserRoleRepository = userRoleRepository;
         }
 
         public async Task CommitAsync()

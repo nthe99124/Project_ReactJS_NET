@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Model.ViewModel.Product;
 using System;
 using System.Threading.Tasks;
+using Model.Common;
 
 namespace API.Controllers
 {
@@ -24,17 +25,17 @@ namespace API.Controllers
 
         [HttpGet("GetAllProductPaging")]
         [Authorize]
-        public async Task<IActionResult> GetAllProductPaging([FromQuery] int pageIndex = 1)
+        public Task<IActionResult> GetAllProductPaging([FromQuery] int pageIndex = 1)
         {
             try
             {
                 var rs = _productService.GetAllProductPaging(pageIndex);
-                return Ok(rs);
+                return Task.FromResult<IActionResult>(Ok(rs));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetAllProductPaging:");
-                return BadRequest();
+                return Task.FromResult<IActionResult>(BadRequest());
             }
         }
 

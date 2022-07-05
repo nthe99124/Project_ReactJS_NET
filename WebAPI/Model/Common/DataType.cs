@@ -1,6 +1,6 @@
 ﻿namespace Model.Common
 {
-    public class DataType
+    public class Role
     {
         public class Product
         {

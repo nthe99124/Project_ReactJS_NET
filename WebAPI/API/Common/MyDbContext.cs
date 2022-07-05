@@ -46,8 +46,6 @@ namespace API.Common
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductImage> ProductImage { get; set; }
         public DbSet<ProductColor> ProductColor { get; set; }
-        public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRole { get; set; }
     }
 }

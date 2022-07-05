@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.EntityFrameworkCore;
 using MyDbContext = API.Common.MyDbContext;
 
 namespace API.Controllers
@@ -45,16 +46,16 @@ namespace API.Controllers
         }
         private string GenerateToken(Login user)
         {
+            var userRole = _context.Users.SingleOrDefault(ur => ur.UserName == user.UserName);
             var jwtToken = new JwtSecurityTokenHandler();
             var secretKeyByte = Encoding.UTF8.GetBytes(_config["AppSettings:SecretKey"]);
             var tokenDescription = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    //new Claim(ClaimTypes.Email,user.Email),
                     new Claim("UserName", user.UserName),
-                    //new Claim("Id",user.Id.ToString()),
-                    new Claim("TokenId",Guid.NewGuid().ToString())
+                    new Claim("TokenId",Guid.NewGuid().ToString()),
+                    new Claim(ClaimTypes.Role,userRole.UserRole.ToString())
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKeyByte), SecurityAlgorithms.HmacSha512Signature)
