@@ -11,7 +11,7 @@ namespace API.Common.Interface
     public interface IGenericRepository<T> where T : class
     {
         IEnumerable<T> GetAll();
-        (long totalRecord, IQueryable<T> data) GetAllPaging(Paging paging);
+        (long totalRecord, IQueryable<T> data) GetAllDataPaging(Paging paging);
         Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate);
         void Create(T entity);

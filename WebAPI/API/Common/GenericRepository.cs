@@ -29,7 +29,7 @@ namespace API.Common
             return result;
         }
 
-        public (long totalRecord, IQueryable<T> data) GetAllPaging(Paging paging)
+        public (long totalRecord, IQueryable<T> data) GetAllDataPaging(Paging paging)
         {
             var result = _dbSet.AsQueryable();
             var totalRecord = Convert.ToInt64(result.Count());

@@ -31,16 +31,23 @@ namespace API
         public void ConfigureServices(IServiceCollection services)
         {
             // if not use, system back error: "unable to resolve service for type..."
-            //services.AddScoped<DbContext, MyDbContext>();
-            //services.AddDbContext<MyDbContext>(option => option.UseSqlServer("Data Source=.;Initial Catalog=LaptopDB;Integrated Security=True"));
 
-            // add to use in controller
+            // use DI for dbContext
             services.AddDbContext<MyDbContext>(option =>
             {
                 option.UseSqlServer(Configuration.GetConnectionString("Laptop"));
             });
+
+            //use DI for DbContext - when use Pooling
+            //services.AddDbContextPool<MyDbContext>(option =>
+            //{
+            //    option.UseSqlServer(Configuration.GetConnectionString("Laptop"));
+            //},
+            //    poolSize: 128);
+
             services.AddSingleton<IConfiguration>(Configuration);
 
+            // add to use in controller
             services.AddControllers();
 
             // các Interface khác cần addTransient

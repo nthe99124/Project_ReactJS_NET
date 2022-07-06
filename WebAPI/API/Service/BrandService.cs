@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using API.Common;
+﻿using API.Common;
 using API.Common.Interface;
 using API.Service.Interface;
 using Model.BaseEntity;
-using Model.Common;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace API.Service
 {
@@ -22,7 +19,7 @@ namespace API.Service
 
         public RestOutput<Brand> GetAllPaging(Paging paging)
         {
-            var lstBrand = _unitOfWork.BrandRepository.GetAllPaging(paging);
+            var lstBrand = _unitOfWork.BrandRepository.GetAllDataPaging(paging);
             var rs = new RestOutput<Brand>(lstBrand.data.ToList(), lstBrand.totalRecord);
             return rs;
         }

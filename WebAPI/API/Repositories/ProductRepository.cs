@@ -23,7 +23,7 @@ namespace API.Repositories
         {
             try
             {
-                var rs = GetAllPaging(new Paging(pageIndex));
+                var rs = GetAllDataPaging(new Paging(pageIndex));
                 var lstProduct = rs.data
                     .Select(p => new ProductViewModel()
                     {

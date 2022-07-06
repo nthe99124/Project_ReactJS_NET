@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 
 namespace API.Common
 {
@@ -10,31 +11,26 @@ namespace API.Common
         public int PageSize { get; set; } = 5;
         public long TotalRecords { get; set; }
 
-        public RestOutput(List<T> data, long pageCount = 0)
+        public RestOutput(List<T> data)
         {
             Data = data;
-            PageCount = pageCount;
         }
 
-        public RestOutput(long totalRecords, long pageCount = 0)
+        public RestOutput(long totalRecords)
         {
             TotalRecords = totalRecords;
-            PageCount = pageCount;
         }
 
-        public RestOutput(List<T> data, long totalRecords, long pageCount = 0)
+        public RestOutput(List<T> data, long totalRecords)
         {
             Data = data;
             TotalRecords = totalRecords;
-            PageCount = pageCount;
         }
 
         private long _pageCount;
-        // làm sao để mặc định pageCount được set???? luôn cần set pageCount thì mới vào được propertype
         public long PageCount
         {
-            get => _pageCount;
-            set
+            get
             {
                 if (TotalRecords == 0)
                 {
@@ -45,6 +41,8 @@ namespace API.Common
                     _pageCount = TotalRecords / PageSize;
                 }
                 else _pageCount = Convert.ToInt32(TotalRecords / PageSize) + 1;
+
+                return _pageCount;
             }
         }
     }
