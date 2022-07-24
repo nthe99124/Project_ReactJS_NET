@@ -1,12 +1,12 @@
 ﻿using API.Common;
-using Model.ViewModel.Product;
 using System.Threading.Tasks;
+using Model.DTOs.Product;
 
 namespace API.Service.Interface
 {
-    public interface IProductService : IGenericService<ProductViewModel>
+    public interface IProductService : IGenericService<ProductDto>
     {
-        RestOutput<ProductViewModel> GetAllProductPaging(int pageIndex);
-        Task<RestOutput<ProductViewModel>> GetProductByAnyPoint(ProductViewModel pro, int pageIndex);
+        RestOutput<ProductDto> GetAllProductPaging(int pageIndex);
+        Task<RestOutput<ProductDto>> GetProductByAnyPoint(ProductDto pro, int pageIndex);
     }
 }

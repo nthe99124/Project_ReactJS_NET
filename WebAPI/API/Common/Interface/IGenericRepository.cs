@@ -14,6 +14,7 @@ namespace API.Common.Interface
         (long totalRecord, IQueryable<T> data) GetAllDataPaging(Paging paging);
         Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate);
         Task<T> FirstOrDefault(Expression<Func<T, bool>> predicate);
+        Task<bool> Any(Expression<Func<T, bool>> predicate);
         void Create(T entity);
         Task CreateAsync(T entity);
         Task CreateRangeAsync(List<T> entity);

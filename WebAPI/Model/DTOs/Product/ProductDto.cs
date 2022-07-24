@@ -2,9 +2,9 @@
 using Model.BaseEntity;
 using Model.Common;
 
-namespace Model.ViewModel.Product
+namespace Model.DTOs.Product
 {
-    public class ProductViewModel : Entity
+    public class ProductDto : Entity
     {
         public long? IdPro { get; set; }
         public string NamePro { get; set; }
@@ -22,6 +22,5 @@ namespace Model.ViewModel.Product
         public List<ProductColor> ProductColor { get; set; }
         public List<int> ColorId { get; set; }
         public List<string> UrlImage { get; set; }
-
     }
 }

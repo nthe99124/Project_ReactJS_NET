@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Model.ViewModel;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -13,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
 using Model.BaseEntity;
+using Model.DTOs;
 using MyDbContext = API.Common.MyDbContext;
 
 namespace API.Controllers

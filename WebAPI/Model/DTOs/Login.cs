@@ -1,4 +1,4 @@
-﻿namespace Model.ViewModel
+﻿namespace Model.DTOs
 {
     public class Login
     {

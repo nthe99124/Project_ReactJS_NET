@@ -51,6 +51,11 @@ namespace API.Common
             return await Task.Run(() => _dbSet.FirstOrDefault(predicate));
         }
 
+        public async Task<bool> Any(Expression<Func<T, bool>> predicate)
+        {
+            return await Task.Run(() => _dbSet.Any(predicate));
+        }
+
         public void Create(T entity)
         {
             _dbSet.Add(entity);

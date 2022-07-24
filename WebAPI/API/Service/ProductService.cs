@@ -2,22 +2,26 @@
 using API.Common.Interface;
 using API.Service.Interface;
 using Model.BaseEntity;
-using Model.ViewModel.Product;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Model.DTOs.Product;
 
 namespace API.Service
 {
     public class ProductService : IProductService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public ProductService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+        public ProductService(IUnitOfWork unitOfWork,
+        IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
-        public RestOutput<ProductViewModel> GetAllProductPaging(int pageIndex)
+        public RestOutput<ProductDto> GetAllProductPaging(int pageIndex)
         {
             try
             {
@@ -31,7 +35,7 @@ namespace API.Service
             }
         }
 
-        public async Task<RestOutput<ProductViewModel>> GetProductByAnyPoint(ProductViewModel pro, int pageIndex)
+        public async Task<RestOutput<ProductDto>> GetProductByAnyPoint(ProductDto pro, int pageIndex)
         {
             try
             {
@@ -45,7 +49,7 @@ namespace API.Service
             }
         }
 
-        public async Task<RestOutputCommand<ProductViewModel>> Add(ProductViewModel pro)
+        public async Task<RestOutputCommand<ProductDto>> Add(ProductDto pro)
         {
             try
             {
@@ -111,7 +115,7 @@ namespace API.Service
                 await _unitOfWork.ProductRepository.CreateAsync(product);
                 await _unitOfWork.CommitAsync();
 
-                var rs = new RestOutputCommand<ProductViewModel>(pro);
+                var rs = new RestOutputCommand<ProductDto>(pro);
                 return rs;
             }
             catch (Exception ex)
@@ -121,28 +125,31 @@ namespace API.Service
             }
         }
 
-        public async Task<RestOutputCommand<ProductViewModel>> Update(ProductViewModel pro)
+        public async Task<RestOutputCommand<ProductDto>> Update(dynamic id, ProductDto pro)
         {
             try
             {
-                var product = await _unitOfWork.ProductRepository.FirstOrDefault(x => x.Id == pro.IdPro);
-                if (product != null)
+                var idPro = (long)(id);
+                var proExAny = await _unitOfWork.ProductRepository.Any(x => x.Id == idPro);
+
+                if (proExAny != null)
                 {
-                    product.Name = pro.NamePro;
-                    product.BrandId = pro.IdBrand;
-                    product.Description = pro.Description;
-                    product.Price = pro.Price ?? 0;
-                    product.Weight = pro.Weight ?? 0;
-                    product.Size = pro.Size;
-                    product.CreatedBy = pro.CreatedBy;
-                    product.CreatedOn = pro.CreatedOn;
-                    product.UpdatedBy = pro.UpdatedBy;
-                    product.UpdatedOn = pro.UpdatedOn;
-                    product.PromotionPrice = pro.PromotionPrice ?? 0;
-                    product.Type = pro.Type;
-                    product.Warranty = pro.Warranty ?? 0;
-                    product.Weight = pro.Weight ?? 0;
-                    product.Size = pro.Size;
+                    var product = _mapper.Map<Product>(pro);
+                    //product.Name = pro.NamePro;
+                    //product.BrandId = pro.IdBrand;
+                    //product.Description = pro.Description;
+                    //product.Price = pro.Price ?? 0;
+                    //product.Weight = pro.Weight ?? 0;
+                    //product.Size = pro.Size;
+                    //product.CreatedBy = pro.CreatedBy;
+                    //product.CreatedOn = pro.CreatedOn;
+                    //product.UpdatedBy = pro.UpdatedBy;
+                    //product.UpdatedOn = pro.UpdatedOn;
+                    //product.PromotionPrice = pro.PromotionPrice ?? 0;
+                    //product.Type = pro.Type;
+                    //product.Warranty = pro.Warranty ?? 0;
+                    //product.Weight = pro.Weight ?? 0;
+                    //product.Size = pro.Size;
 
                     // check Update Color
                     if (pro.ColorId != null)
@@ -248,7 +255,7 @@ namespace API.Service
                     await _unitOfWork.CommitAsync();
                 }
 
-                var rs = new RestOutputCommand<ProductViewModel>(pro);
+                var rs = new RestOutputCommand<ProductDto>(pro);
                 return rs;
             }
             catch (Exception ex)
@@ -258,7 +265,7 @@ namespace API.Service
             }
         }
 
-        public async Task<RestOutputCommand<ProductViewModel>> Delete(dynamic id)
+        public async Task<RestOutputCommand<ProductDto>> Delete(dynamic id)
         {
             try
             {
@@ -290,7 +297,7 @@ namespace API.Service
                     await _unitOfWork.CommitAsync();
                 }
 
-                var rs = new RestOutputCommand<ProductViewModel>(null);
+                var rs = new RestOutputCommand<ProductDto>(null);
                 return rs;
             }
             catch (Exception ex)

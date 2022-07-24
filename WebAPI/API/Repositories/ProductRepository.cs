@@ -3,10 +3,10 @@ using API.Repositories.Interface;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Model.BaseEntity;
-using Model.ViewModel.Product;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Model.DTOs.Product;
 
 namespace API.Repositories
 {
@@ -19,13 +19,13 @@ namespace API.Repositories
             _logger = logger;
         }
 
-        public RestOutput<ProductViewModel> GetAllProductPaging(int pageIndex = 1)
+        public RestOutput<ProductDto> GetAllProductPaging(int pageIndex = 1)
         {
             try
             {
                 var rs = GetAllDataPaging(new Paging(pageIndex));
                 var lstProduct = rs.data
-                    .Select(p => new ProductViewModel()
+                    .Select(p => new ProductDto()
                     {
                         IdPro = p.Id,
                         NamePro = p.Name,
@@ -40,7 +40,7 @@ namespace API.Repositories
                         Size = p.Size,
                     });
                 //_logger.LogInformation("GetAllProductPaging:start Repository ");
-                return new RestOutput<ProductViewModel>(lstProduct.ToList(), rs.totalRecord);
+                return new RestOutput<ProductDto>(lstProduct.ToList(), rs.totalRecord);
             }
             catch (Exception ex)
             {
@@ -49,14 +49,14 @@ namespace API.Repositories
             }
         }
 
-        public async Task<RestOutput<ProductViewModel>> GetProductByAnyPoint(ProductViewModel pro, int pageIndex = 1)
+        public async Task<RestOutput<ProductDto>> GetProductByAnyPoint(ProductDto pro, int pageIndex = 1)
         {
             try
             {
                 var lstProduct = await _context.Products
                         .Include(p => p.Brand)
                         .Include(p => p.ProductColor)
-                        .Select(p => new ProductViewModel()
+                        .Select(p => new ProductDto()
                         {
                             IdPro = p.Id,
                             NamePro = p.Name,
@@ -71,9 +71,9 @@ namespace API.Repositories
                             Size = p.Size,
                         }).ToListAsync();
 
-                var rs = new RestOutput<ProductViewModel>(lstProduct.Count);
-                lstProduct = FindByAnyPoint<ProductViewModel>(lstProduct, pro);
-                lstProduct = PagingResult<ProductViewModel>(lstProduct, new Paging(pageIndex));
+                var rs = new RestOutput<ProductDto>(lstProduct.Count);
+                lstProduct = FindByAnyPoint<ProductDto>(lstProduct, pro);
+                lstProduct = PagingResult<ProductDto>(lstProduct, new Paging(pageIndex));
                 rs.Data = lstProduct;
                 return rs;
             }

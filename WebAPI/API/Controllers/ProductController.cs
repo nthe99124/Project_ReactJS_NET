@@ -2,10 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Model.ViewModel.Product;
+using Model.DTOs.Product;
 using System;
 using System.Threading.Tasks;
-using Model.Common;
 
 namespace API.Controllers
 {
@@ -41,7 +40,7 @@ namespace API.Controllers
 
         [HttpGet("GetProductByAnyPoint")]
         [Authorize]
-        public async Task<IActionResult> GetProductByAnyPoint(ProductViewModel pro, int pageIndex = 1)
+        public async Task<IActionResult> GetProductByAnyPoint(ProductDto pro, int pageIndex = 1)
         {
             try
             {
@@ -57,7 +56,7 @@ namespace API.Controllers
 
         [HttpPost("InsertProduct")]
         [Authorize]
-        public async Task<IActionResult> InsertProduct([FromBody] ProductViewModel pro)
+        public async Task<IActionResult> InsertProduct([FromBody] ProductDto pro)
         {
             try
             {
@@ -71,9 +70,9 @@ namespace API.Controllers
             }
         }
 
-        [HttpPost("UpdateProduct")]
+        [HttpPut("UpdateProduct/{id}")]
         [Authorize]
-        public async Task<IActionResult> UpdateProduct([FromBody] ProductViewModel pro)
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] ProductDto pro)
         {
             try
             {

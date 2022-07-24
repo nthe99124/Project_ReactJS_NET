@@ -1,5 +1,6 @@
 ﻿using API.Common.Interface;
 using API.Repositories.Interface;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -24,14 +25,6 @@ namespace API.Common
         public IProductColorRepository ProductColorRepository { get; }
         public IImageRepository ImageRepository { get; }
         public IProductImageRepository ProductImageRepository { get; }
-
-        public UnitOfWork(
-            ILogger<UnitOfWork> logger,
-            MyDbContext context)
-        {
-            _logger = logger;
-            _context = context;
-        }
 
         public UnitOfWork(
             ILogger<UnitOfWork> logger,
